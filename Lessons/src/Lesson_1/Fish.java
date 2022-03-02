@@ -1,14 +1,14 @@
 /**
- * class Dog
+ * class Fish
  *
  * @author Melnev Dmitry
  * @version 2022
  */
 package Lesson_1;
 
-public class Dog extends Animal {
+public class Fish extends Animal{
 
-    public Dog(String name, Gender gender) {
+    public Fish(String name, Gender gender) {
         super(name, gender);
     }
 }
