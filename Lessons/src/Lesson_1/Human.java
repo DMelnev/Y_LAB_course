@@ -6,7 +6,7 @@
  */
 package Lesson_1;
 
-public class Human extends Animal {
+public abstract class Human extends Animal {
     public Human(String name, Gender gender) {
         super(name, gender);
     }

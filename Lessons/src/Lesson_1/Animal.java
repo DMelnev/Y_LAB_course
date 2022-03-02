@@ -31,4 +31,13 @@ public abstract class Animal<T> {
     public void setOwner(T owner) {
         this.owner = owner;
     }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "name='" + name + '\'' +
+                ", owner=" + owner +
+                ", gender=" + gender +
+                '}';
+    }
 }
