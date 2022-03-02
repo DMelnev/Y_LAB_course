@@ -9,8 +9,8 @@ package Lesson_1;
 import java.util.HashMap;
 
 public class Fib {
-    HashMap<Integer, Long> cache = new HashMap<>();
-    int index;
+    private static HashMap<Integer, Long> cache = new HashMap<>();
+    private static int index;
 
     public Fib() {
         cache.put(0, (long) 0);
