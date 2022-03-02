@@ -6,7 +6,7 @@
  */
 package Lesson_1;
 
-public abstract class Animal<T> {
+public abstract class Animal<T extends Human> {
     private String name;
     private T owner;
     private Gender gender;
@@ -29,15 +29,14 @@ public abstract class Animal<T> {
     }
 
     public void setOwner(T owner) {
+
         this.owner = owner;
     }
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "name='" + name + '\'' +
+        return "name='" + name + '\'' +
                 ", owner=" + owner +
-                ", gender=" + gender +
-                '}';
+                ", gender=" + gender;
     }
 }

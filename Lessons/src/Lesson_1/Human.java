@@ -12,7 +12,9 @@ public abstract class Human extends Animal {
     }
 
     @Override
-    public void setOwner(Object owner) {
-        System.out.println("Human has not owner from 1949!");
+    public void setOwner(Human owner) {
+        {
+            System.out.println("Human has not owner from 1949!");
+        }
     }
 }
