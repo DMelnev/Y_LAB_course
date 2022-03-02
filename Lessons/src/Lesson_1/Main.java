@@ -34,7 +34,7 @@ public class Main {
         System.out.println(min(5, 14, 2, 3, 6));
 
         //Мама мыла раму
-        String[] text = {"Мама", "Мыла", "Раму"};
+        String[] text = {"Мама", "Мыла", "Раму", "Молча"};
         int a = 0;
         int b = 1;
         for (int i = 0; i < getFactorial(text.length); i++) {
