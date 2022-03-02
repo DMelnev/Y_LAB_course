@@ -6,7 +6,7 @@
  */
 package Lesson_1;
 
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Main {
 
         System.out.println("I fill so bad! I want everyone to die!");
 
-        //this is a comment
+        //операции с объектами
 
         Woman olga = new Woman("Olga");
         Woman natalia = new Woman("Natalia");
@@ -30,8 +30,10 @@ public class Main {
         System.out.println("Petty owner is " + fishPetty.getOwner());
         System.out.println("Natalia owner is " + natalia.getOwner());
 
+        //минимум 2, 3, 4 и тд чисел
         System.out.println(min(5, 14, 2, 3, 6));
 
+        //Мама мыла раму
         String[] text = {"Мама", "Мыла", "Раму"};
         int a = 0;
         int b = 1;
@@ -44,12 +46,44 @@ public class Main {
         }
         System.out.println();
 
+        //таблица умножения
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 10; j++) {
                 System.out.print((i * j) + ((i * j < 10) ? "  " : " "));
             }
             System.out.println();
         }
+
+
+        System.out.println();
+
+        System.out.println("It's Windows path: \"C:\\Program Files\\Java\\jdk1.7.0\\bin\"");
+        System.out.println("It's Java string: \\\"C:\\\\Program Files\\\\Java\\\\jdk1.7.0\\\\bin\\\"");
+        System.out.println("日本語");
+
+        //консольный ввод
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Введите Ваше имя: ");
+        String name = input.next();
+        System.out.println("Введите число лет: ");
+        int year = input.nextInt();
+        System.out.printf("%s захватит мир через %d лет", name, year);
+        System.out.println();
+
+        //алгоритм поиска фибоначи
+
+        System.out.println(fib1(16)); //cyclic. (987)
+        System.out.println(fib2(21)); //recursive. (10946)
+        // что значит "с использованием памяти" я не понимаю, либо еще не дошел до этого в самообучении, либо туплю...(((
+        System.out.println();
+        // 4 задание как понял, не уверен что верно.
+        Fib cache = new Fib();
+        System.out.println(cache.getFib(21)); // first time (10946)
+        System.out.println(cache.getFib(16)); // from cache (987)
+        System.out.println(cache.getFib(22)); // first time (17711)
+        System.out.println(cache.getFib(22)); // cache (17711)
+
 
     }
 
@@ -93,5 +127,24 @@ public class Main {
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int fib1(int i) {
+        if (i == 0) return 0;
+        if (i == 1 || i == 2) return 1;
+        int result = 1;
+        int pre = 1;
+        for (int j = 3; j <= i; j++) {
+            int buf = pre;
+            pre = result;
+            result += buf;
+        }
+        return result;
+    }
+
+    public static int fib2(int i) {
+        if (i == 0) return 0;
+        if (i == 1 || i == 2) return 1;
+        return fib2(i - 2) + fib2(i - 1);
     }
 }
