@@ -14,8 +14,8 @@ import java.util.Scanner;
 
 public class Game {
     char[][] map;
-    int SIZE = 3; //размер поля
-    int SET = 3;  //длина победной линии
+    int SIZE = 5; //размер поля
+    int SET = 4;  //длина победной линии
     final char DOT_EMPTY = '-';
     final char DOT_HUMAN = 'X';
     final char DOT_AI = 'O';
