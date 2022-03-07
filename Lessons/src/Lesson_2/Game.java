@@ -1,5 +1,10 @@
 package Lesson_2;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -14,47 +19,85 @@ import java.util.Scanner;
 
 public class Game {
     char[][] map;
-    int SIZE = 5; //размер поля
-    int SET = 3;  //длина победной линии
+    int SIZE =6; //размер поля (от 1 до 6)
+    int SET = 4;  //длина победной линии (от 1 до 4)
     final char DOT_EMPTY = '-';
     final char DOT_HUMAN = 'X';
     final char DOT_AI = 'O';
+
+    File file = new File("statistic.txt");
 
     Scanner input = new Scanner(System.in);
     Random rnd = new Random();
 
     int aiX, aiY, step;
+    boolean isAI;
     char[][] temp;
+    String name1, name2, result;
     ArrayList<Coordinate> list = new ArrayList<>();
 
-    int run() {
-        initMap();
-        while (true) {
-            printMap();
-            humanMove();
-            if (checkWin(DOT_HUMAN, map)) {
-                printMap();
-                System.out.println("Вы победили!");
-                return 1;
+    void run() {
+        boolean cont = true;
+        checkMap();
+        while (cont) {
+            initMap();
+            inputName();
+            int k = 1;
+            while (true) {
+                if (k > 2) k = 1;
+                if (!isAI || k == 1) printMap();
+                move(k);
+                if (checkWin(DOT_HUMAN, map)) {
+                    printMap();
+                    if (isAI) System.out.println("Вы победили!");
+                    else System.out.println(name1 + " победил!");
+                    result = " выиграл у ";
+                    break;
+                }
+                if (checkWin(DOT_AI, map)) {
+                    printMap();
+                    if (isAI) System.out.println("Вы проиграли!");
+                    else System.out.println(name2 + " победил!");
+                    result = " проиграл ";
+                    break;
+                }
+                if (checkDrawn()) {
+                    printMap();
+                    System.out.println("Ничья!");
+                    result = " съиграл в ничью с ";
+                    break;
+                }
+                k++;
             }
-            if (checkDrawn()) {
-                printMap();
-                System.out.println("Ничья!");
-                return 0;
-            }
-            printMap();
-            moveAI();
-            if (checkWin(DOT_AI, map)) {
-                printMap();
-                System.out.println("Вы проиграли!");
-                return -1;
-            }
-            if (checkDrawn()) {
-                printMap();
-                System.out.println("Ничья!");
-                return 0;
-            }
+            writeToFile();
+            System.out.println("Желаете еще раз? (Y/N)");
+            String tmp = input.next();
+            cont = tmp.equals("Y") || tmp.equals("y");
         }
+    }
+
+    private void inputName() {
+        selectAI();
+        if (isAI) {
+            System.out.println("Введите Ваше имя:");
+            name1 = input.next();
+            name2 = "AI";
+        } else {
+            System.out.println("Введите имя первого игрока:");
+            name1 = input.next();
+            System.out.println("Введите имя второго игрока:");
+            name2 = input.next();
+        }
+    }
+
+    private void selectAI() {
+        int num;
+        do {
+            System.out.println("Введите количество игроков:");
+            num = input.nextInt();
+            if (num < 1 || num > 2) System.out.println("Возможен 1 или 2 игрока.");
+            isAI = num == 1;
+        } while (num < 1 || num > 2);
     }
 
     private void initMap() {
@@ -76,15 +119,53 @@ public class Game {
         }
     }
 
-    private void humanMove() {
+    private void writeToFile() {
+        String text = name1 + result + name2 + "\n";
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try (OutputStream outputStream = new FileOutputStream(file, true)) {
+            outputStream.write(text.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void move(int num) {
+
+
+        switch (num) {
+            case (1):
+                int[] tmp = inputStep(name1);
+                map[tmp[0]][tmp[1]] = DOT_HUMAN;
+                break;
+            case (2):
+                if (isAI) moveAI();
+                else {
+                    int[] tmp2 = inputStep(name2);
+                    map[tmp2[0]][tmp2[1]] = DOT_AI;
+                }
+                break;
+            default:
+                throw new IndexOutOfBoundsException("Argument of method \"move\" is not valid");
+        }
+    }
+
+    private int[] inputStep(String name) {
         int x, y;
         do {
-            System.out.print("Введите координаты (X, Y):");
+            System.out.print("Ход " + name + ". Введите координаты (X, Y):");
             y = input.nextInt() - 1;
             x = input.nextInt() - 1;
             if (checkInput(x, y)) System.out.println("Ход не засчитан.");
         } while (checkInput(x, y));
-        map[x][y] = DOT_HUMAN;
+        return new int[]{x, y};
     }
 
     private void moveAI() {
@@ -92,11 +173,7 @@ public class Game {
             aiX = rnd.nextInt(SIZE);
             aiY = rnd.nextInt(SIZE);
         } while (checkInput(aiX, aiY));
-        blockHuman();
-        map[aiX][aiY] = DOT_AI;
-    }
 
-    private void blockHuman() {
         list.clear();
         // перебираем все варианты ходов, первый уровень
         for (int x = 0; x < SIZE; x++) {
@@ -123,6 +200,8 @@ public class Game {
             aiX = ddd.X;
             aiY = ddd.Y;
         }
+
+        map[aiX][aiY] = DOT_AI;
     }
 
     private void scanSteps(char who) {
@@ -161,6 +240,14 @@ public class Game {
             for (char point : line)
                 if (point == DOT_EMPTY) return false;
         return true; // ничего не нашли, ничья.
+    }
+
+    private void checkMap() {
+        if (SIZE < 1) SIZE = 1;
+        if (SIZE > 6) SIZE = 6;
+        if (SET < 1) SET = 1;
+        if (SET > SIZE) SET = SIZE;
+        if (SET > 4) SET = 4;
     }
 
     private boolean checkWin(char point, char[][] test) {
