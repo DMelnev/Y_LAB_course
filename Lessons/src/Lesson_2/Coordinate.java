@@ -8,10 +8,10 @@ package Lesson_2;
  */
 
 public class Coordinate {
-    int X;
-    int Y;
-    int steps;
-    char who;
+    public int X;
+    public int Y;
+    public int steps;
+    public char who;
 
     public Coordinate(int X, int Y, int steps, char who) {
         this.X = X;
