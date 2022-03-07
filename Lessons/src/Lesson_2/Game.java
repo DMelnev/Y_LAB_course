@@ -36,7 +36,7 @@ public class Game {
     String name1, name2, result;
     ArrayList<Coordinate> list = new ArrayList<>();
 
-    void run() {
+    public void run() {
         boolean cont = true;
         checkMap();
         while (cont) {
