@@ -3,7 +3,6 @@ package Lesson_2;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,15 +143,14 @@ public class Game {
             }
         }
 
-        try (OutputStream outputStream = new FileOutputStream(file, true)) {
+        try (FileOutputStream outputStream = new FileOutputStream(file, true)) {
             outputStream.write(text.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private  void move(int num) {
-
 
         switch (num) {
             case (1):
