@@ -19,8 +19,8 @@ import java.util.Scanner;
 
 public class Game {
     char[][] map;
-    int SIZE =6; //размер поля (от 1 до 6)
-    int SET = 4;  //длина победной линии (от 1 до 4)
+    protected int SIZE; //размер поля
+    protected int SET;  //длина победной линии
     final char DOT_EMPTY = '-';
     final char DOT_HUMAN = 'X';
     final char DOT_AI = 'O';
@@ -38,8 +38,8 @@ public class Game {
 
     public void run() {
         boolean cont = true;
-        checkMap();
         while (cont) {
+            enterMapSize();
             initMap();
             inputName();
             int k = 1;
@@ -76,7 +76,7 @@ public class Game {
         }
     }
 
-    private void inputName() {
+    protected void inputName() {
         selectAI();
         if (isAI) {
             System.out.println("Введите Ваше имя:");
@@ -90,7 +90,21 @@ public class Game {
         }
     }
 
-    private void selectAI() {
+    protected void enterMapSize() {
+        do {
+            System.out.println("Введите размер поля (от 1 до 6)");
+            SIZE = input.nextInt();
+        } while ((SIZE < 1) || (SIZE > 6));
+        do {
+            System.out.println("Введите количество победных точек (от 1 до " +
+                    (Math.min(SIZE, 4))
+                    + ")");
+            SET = input.nextInt();
+        } while ((SET < 1) || (SET > SIZE) || (SET > 4));
+        map = new char[SIZE][SIZE];
+    }
+
+    protected void selectAI() {
         int num;
         do {
             System.out.println("Введите количество игроков:");
@@ -100,12 +114,12 @@ public class Game {
         } while (num < 1 || num > 2);
     }
 
-    private void initMap() {
+    protected void initMap() {
         map = new char[SIZE][SIZE];
         for (char[] line : map) Arrays.fill(line, DOT_EMPTY);
     }
 
-    private void printMap() {
+    protected void printMap() {
         System.out.print("  ");
         for (int i = 1; i < SIZE + 1; i++) {
             System.out.printf("%d %s", i, (i < 10) ? " " : "");
@@ -119,7 +133,7 @@ public class Game {
         }
     }
 
-    private void writeToFile() {
+    protected void writeToFile() {
         String text = name1 + result + name2 + "\n";
 
         if (!file.exists()) {
@@ -137,7 +151,7 @@ public class Game {
         }
     }
 
-    private void move(int num) {
+    protected void move(int num) {
 
 
         switch (num) {
@@ -157,7 +171,7 @@ public class Game {
         }
     }
 
-    private int[] inputStep(String name) {
+    protected int[] inputStep(String name) {
         int x, y;
         do {
             System.out.print("Ход " + name + ". Введите координаты (X, Y):");
@@ -168,7 +182,7 @@ public class Game {
         return new int[]{x, y};
     }
 
-    private void moveAI() {
+    protected void moveAI() {
         do {
             aiX = rnd.nextInt(SIZE);
             aiY = rnd.nextInt(SIZE);
@@ -204,7 +218,7 @@ public class Game {
         map[aiX][aiY] = DOT_AI;
     }
 
-    private void scanSteps(char who) {
+    protected void scanSteps(char who) {
 
         for (int x = 0; x < SIZE; x++) {
             for (int y = 0; y < SIZE; y++) {
@@ -231,26 +245,18 @@ public class Game {
         }
     }
 
-    private boolean checkInput(int x, int y) {
+    protected boolean checkInput(int x, int y) {
         return (x < 0) || (x >= SIZE) || (y < 0) || (y >= SIZE) || (map[x][y] != DOT_EMPTY);
     }
 
-    boolean checkDrawn() {
+    protected boolean checkDrawn() {
         for (char[] line : map)
             for (char point : line)
                 if (point == DOT_EMPTY) return false;
         return true; // ничего не нашли, ничья.
     }
 
-    private void checkMap() {
-        if (SIZE < 1) SIZE = 1;
-        if (SIZE > 6) SIZE = 6;
-        if (SET < 1) SET = 1;
-        if (SET > SIZE) SET = SIZE;
-        if (SET > 4) SET = 4;
-    }
-
-    private boolean checkWin(char point, char[][] test) {
+    protected boolean checkWin(char point, char[][] test) {
         int border = SIZE - SET;  // граница положения фреймов
         // перебираем фреймы на всей карте
         for (int i = 0; i <= border; i++) { //столбец карты
