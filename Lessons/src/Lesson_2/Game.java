@@ -19,8 +19,8 @@ import java.util.Scanner;
 
 public class Game {
     char[][] map;
-    protected int SIZE; //размер поля
-    protected int SET;  //длина победной линии
+    protected int size; //размер поля
+    protected int set;  //длина победной линии
     final char DOT_EMPTY = '-';
     final char DOT_HUMAN = 'X';
     final char DOT_AI = 'O';
@@ -93,15 +93,15 @@ public class Game {
     protected void enterMapSize() {
         do {
             System.out.println("Введите размер поля (от 1 до 6)");
-            SIZE = input.nextInt();
-        } while ((SIZE < 1) || (SIZE > 6));
+            size = input.nextInt();
+        } while ((size < 1) || (size > 6));
         do {
             System.out.println("Введите количество победных точек (от 1 до " +
-                    (Math.min(SIZE, 4))
+                    (Math.min(size, 4))
                     + ")");
-            SET = input.nextInt();
-        } while ((SET < 1) || (SET > SIZE) || (SET > 4));
-        map = new char[SIZE][SIZE];
+            set = input.nextInt();
+        } while ((set < 1) || (set > size) || (set > 4));
+        map = new char[size][size];
     }
 
     private  void selectAI() {
@@ -115,19 +115,19 @@ public class Game {
     }
 
     private  void initMap() {
-        map = new char[SIZE][SIZE];
+        map = new char[size][size];
         for (char[] line : map) Arrays.fill(line, DOT_EMPTY);
     }
 
     private  void printMap() {
         System.out.print("  ");
-        for (int i = 1; i < SIZE + 1; i++) {
+        for (int i = 1; i < size + 1; i++) {
             System.out.printf("%d %s", i, (i < 10) ? " " : "");
         }
         System.out.println();
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < size; i++) {
             System.out.printf("%d%s", (i + 1), (i < 9) ? " " : "");
-            for (int j = 0; j < SIZE; j++)
+            for (int j = 0; j < size; j++)
                 System.out.print(map[i][j] + "  ");
             System.out.println();
         }
@@ -184,14 +184,14 @@ public class Game {
 
     protected void moveAI() {
         do {
-            aiX = rnd.nextInt(SIZE);
-            aiY = rnd.nextInt(SIZE);
+            aiX = rnd.nextInt(size);
+            aiY = rnd.nextInt(size);
         } while (checkInput(aiX, aiY));
 
         list.clear();
         // перебираем все варианты ходов, первый уровень
-        for (int x = 0; x < SIZE; x++) {
-            for (int y = 0; y < SIZE; y++) {
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
                 if (map[x][y] == DOT_EMPTY) {
                     temp = map.clone();
                     step = 0;
@@ -220,8 +220,8 @@ public class Game {
 
     private  void scanSteps(char who) {
 
-        for (int x = 0; x < SIZE; x++) {
-            for (int y = 0; y < SIZE; y++) {
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
                 if (temp[x][y] == DOT_EMPTY) {
                     step++;
                     temp[x][y] = who;
@@ -231,7 +231,7 @@ public class Game {
                         step--;
                         return;
                     }
-                    if (step >= SET) { //ограничиваем рекурсию
+                    if (step >= set) { //ограничиваем рекурсию
                         step--;
                         temp[x][y] = DOT_EMPTY;
                         return;
@@ -246,7 +246,7 @@ public class Game {
     }
 
     protected boolean checkInput(int x, int y) {
-        return (x < 0) || (x >= SIZE) || (y < 0) || (y >= SIZE) || (map[x][y] != DOT_EMPTY);
+        return (x < 0) || (x >= size) || (y < 0) || (y >= size) || (map[x][y] != DOT_EMPTY);
     }
 
     private  boolean checkDrawn() {
@@ -257,22 +257,22 @@ public class Game {
     }
 
     protected boolean checkWin(char point, char[][] test) {
-        int border = SIZE - SET;  // граница положения фреймов
+        int border = size - set;  // граница положения фреймов
         // перебираем фреймы на всей карте
         for (int i = 0; i <= border; i++) { //столбец карты
             for (int j = 0; j <= border; j++) { //строка карты
                 int countA = 0, countB = 0; //инициализация счетчиков по диагоналям
                 // перебираем внутри фрейма
-                for (int x = 0; x < SET; x++) { //столбец фрейма
+                for (int x = 0; x < set; x++) { //столбец фрейма
                     int countY = 0, countX = 0; //инициализация счетчиков по строкам
-                    for (int y = 0; y < SET; y++) { //строка фрейма
+                    for (int y = 0; y < set; y++) { //строка фрейма
                         if (test[x + i][y + j] == point) countY++;               //проверяем горизонтали
                         if (test[y + j][x + i] == point) countX++;               //проверяем вертикали
                         if (x == y) {                                           //если диагональ
                             if (test[x + i][y + j] == point) countA++;           //проверяем главную диагональ фрейма
-                            if (test[x + i][SET - y - 1 + j] == point) countB++; //проверяем доп. диагональ
+                            if (test[x + i][set - y - 1 + j] == point) countB++; //проверяем доп. диагональ
                         }
-                        if (countA >= SET || countB >= SET || countX >= SET || countY >= SET)
+                        if (countA >= set || countB >= set || countX >= set || countY >= set)
                             return true;//если нашли
                     }
                 }
