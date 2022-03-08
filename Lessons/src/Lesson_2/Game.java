@@ -75,7 +75,7 @@ public class Game {
         }
     }
 
-    private  void inputName() {
+    private void inputName() {
         selectAI();
         if (isAI) {
             System.out.println("Введите Ваше имя:");
@@ -103,7 +103,7 @@ public class Game {
         map = new char[size][size];
     }
 
-    private  void selectAI() {
+    private void selectAI() {
         int num;
         do {
             System.out.println("Введите количество игроков:");
@@ -113,12 +113,12 @@ public class Game {
         } while (num < 1 || num > 2);
     }
 
-    private  void initMap() {
+    private void initMap() {
         map = new char[size][size];
         for (char[] line : map) Arrays.fill(line, DOT_EMPTY);
     }
 
-    private  void printMap() {
+    private void printMap() {
         System.out.print("  ");
         for (int i = 1; i < size + 1; i++) {
             System.out.printf("%d %s", i, (i < 10) ? " " : "");
@@ -132,7 +132,7 @@ public class Game {
         }
     }
 
-    private  void writeToFile() {
+    private void writeToFile() {
         String text = name1 + result + name2 + "\n";
 
         if (!file.exists()) {
@@ -150,7 +150,7 @@ public class Game {
         }
     }
 
-    private  void move(int num) {
+    private void move(int num) {
 
         switch (num) {
             case (1):
@@ -169,7 +169,7 @@ public class Game {
         }
     }
 
-    private  int[] inputStep(String name) {
+    private int[] inputStep(String name) {
         int x, y;
         do {
             System.out.print("Ход " + name + ". Введите координаты (X, Y):");
@@ -216,7 +216,7 @@ public class Game {
         map[aiX][aiY] = DOT_AI;
     }
 
-    private  void scanSteps(char who) {
+    private void scanSteps(char who) {
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
@@ -247,7 +247,7 @@ public class Game {
         return (x < 0) || (x >= size) || (y < 0) || (y >= size) || (map[x][y] != DOT_EMPTY);
     }
 
-    private  boolean checkDrawn() {
+    private boolean checkDrawn() {
         for (char[] line : map)
             for (char point : line)
                 if (point == DOT_EMPTY) return false;
