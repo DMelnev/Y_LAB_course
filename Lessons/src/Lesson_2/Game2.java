@@ -174,7 +174,7 @@ public class Game2 extends Game {
                 }
                 break;
             default:
-                throw new IndexOutOfBoundsException("Valid type of checkFrame.");
+                throw new IndexOutOfBoundsException("Bad type of checkFrame.");
         }
         return false;
     }
