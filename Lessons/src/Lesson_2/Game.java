@@ -209,10 +209,10 @@ public class Game {
         if (list.size() > 0) { //если есть победа
             Coordinate ddd = list.get(0);
             for (Coordinate fff : list) {
-                if (fff.steps < ddd.steps) ddd = fff; // выбираем наибыструю победу
+                if (fff.getSteps() < ddd.getSteps()) ddd = fff; // выбираем наибыструю победу
             }
-            aiX = ddd.X;
-            aiY = ddd.Y;
+            aiX = ddd.getX();
+            aiY = ddd.getY();
         }
 
         map[aiX][aiY] = DOT_AI;
@@ -227,7 +227,7 @@ public class Game {
                     temp[x][y] = who;
                     if (checkWin(who, temp)) {
                         temp[x][y] = DOT_EMPTY;
-                        list.add(new Coordinate(x, y, step, who));
+                        list.add(new Coordinate(x, y, step));
                         step--;
                         return;
                     }

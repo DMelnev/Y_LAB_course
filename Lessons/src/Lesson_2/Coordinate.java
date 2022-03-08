@@ -8,16 +8,38 @@ package Lesson_2;
  */
 
 public class Coordinate {
-    public int X;
-    public int Y;
-    public int steps;
-    public char who;
+    private int X;
+    private int Y;
+    private int steps;
 
-    public Coordinate(int X, int Y, int steps, char who) {
+    public Coordinate(int X, int Y, int steps) {
         this.X = X;
         this.Y = Y;
         this.steps = steps;
-        this.who = who;
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public void setX(int x) {
+        X = x;
+    }
+
+    public int getY() {
+        return Y;
+    }
+
+    public void setY(int y) {
+        Y = y;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 
     @Override
@@ -26,7 +48,6 @@ public class Coordinate {
                 "X=" + X +
                 ", Y=" + Y +
                 ", steps=" + steps +
-                ", who=" + who +
                 '}';
     }
 }
