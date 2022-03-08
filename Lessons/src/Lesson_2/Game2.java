@@ -42,7 +42,7 @@ public class Game2 extends Game {
     }
 
 
-    protected boolean checkWinAndBlock(char point, int frame, boolean isWin) {
+    private boolean checkWinAndBlock(char point, int frame, boolean isWin) {
         int border = SIZE - frame;
         for (int i = 0; i <= border; i++) {
             for (int j = 0; j <= border; j++) {
