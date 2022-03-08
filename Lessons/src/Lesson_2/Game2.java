@@ -90,7 +90,7 @@ public class Game2 extends Game {
         return false;
     }
 
-    protected boolean checkFrame(int xFrame, int yFrame, int frame, char type) {
+    private boolean checkFrame(int xFrame, int yFrame, int frame, char type) {
 
         switch (type) {
             case ('X'): // вертикальная линия
