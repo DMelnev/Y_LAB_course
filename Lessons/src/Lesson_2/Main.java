@@ -16,11 +16,10 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
         System.out.println("Выберите вариант игры(1/2):");
-        if (input.nextInt()==1) {
+        if (input.nextInt() == 1) {
             Game game = new Game();
             game.run();
-        }
-        else {
+        } else {
             Game2 game = new Game2();
             game.run();
         }
