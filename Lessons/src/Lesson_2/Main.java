@@ -24,6 +24,8 @@ public class Main {
             game.run();
         }
 
+
+
         System.out.println("Спасибо за игру.");
 
     }
