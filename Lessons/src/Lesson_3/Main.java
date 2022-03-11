@@ -74,7 +74,7 @@ public class Main {
 
 
         try {
-            Data<Data> root2 = ConvertFromXML.start(fileName);
+            Data<Data> root2 = DataFromXML.start(fileName);
             String fileName2 = "history2.xml";
             File file2 = new File(fileName2);
             if (!file2.exists()) {
@@ -85,7 +85,7 @@ public class Main {
                 }
             }
             try (FileOutputStream outputStream = new FileOutputStream(file2)) {
-                outputStream.write(ConvertToXML.toXml(root2).toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.write(DataToXML.toXml(root2).toString().getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }

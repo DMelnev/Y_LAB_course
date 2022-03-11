@@ -6,18 +6,16 @@
  */
 package Lesson_3;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ConvertFromXML {
+public class DataFromXML {
     private static String FILE;
     private static Data result;
 
-    public ConvertFromXML(String file) {
+    public DataFromXML(String file) {
         FILE = file;
     }
 

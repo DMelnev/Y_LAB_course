@@ -9,7 +9,7 @@ package Lesson_3;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ConvertToXML {
+public class DataToXML {
 
     private static final StringBuilder start =
             new StringBuilder("<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
