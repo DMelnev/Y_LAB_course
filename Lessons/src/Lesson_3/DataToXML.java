@@ -20,16 +20,12 @@ public class DataToXML {
     public static StringBuilder toXml(Data root) {
         StringBuilder result = new StringBuilder();
         result.append(start); //по идее нужно тоже собрать, но пока так
-
         //root
         result.append("\n<" + root.getTagName() + getAttributes(root.getAttributes()) + ">");
-
         //body
         result.append(scanData(root)); // запускаем рекурсию
-
         //end root
         result.append("\n</" + root.getTagName() + ">\n");
-
         return result;
     }
 
