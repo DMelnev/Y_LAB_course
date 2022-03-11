@@ -14,7 +14,7 @@ public class Data<T extends Data> {
     private HashMap<String, String> attributes = new HashMap<>();
     private String text;
     private ArrayList<T> childNodes = new ArrayList<>();
-    private Data<T> parentNode;
+    private Data<T> parent;
 
     public Data(String tagName, String text) {
         this.tagName = tagName;
@@ -50,5 +50,13 @@ public class Data<T extends Data> {
 
     public HashMap<String, String> getAttributes() {
         return attributes;
+    }
+
+    public Data<T> getParent() {
+        return parent;
+    }
+
+    public void setParent(Data<T> parent) {
+        this.parent = parent;
     }
 }

@@ -23,7 +23,7 @@ public class ConvertFromXML {
         Scanner scanner = new Scanner(new File(file));
         String rootName = null;
         String endRoot = null;
-        Data<Data> prev =null;
+        Data<Data> prev = null;
         Data<Data> current = null;
 
         while (scanner.hasNext()) {
@@ -42,10 +42,24 @@ public class ConvertFromXML {
             if (current == null) {
                 throw new Exception("File is not correct");
             }
+
             if (data.length > 1) {
 
+
+
             } else {
-                System.out.println(data[0]);
+                if (data[0].startsWith("</")) {
+//                    current = prev;
+
+                    continue;
+                }
+                if (data[0].endsWith("/>")) {
+                    continue;
+                }
+                if (!data[0].contains("/")){
+
+                    System.out.println(data[0]);
+                }
             }
 
 
