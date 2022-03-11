@@ -27,15 +27,15 @@ public class Data<T extends Data> {
         this.attributes = attributes;
     }
 
-    public ArrayList<T> getChildNodeByName(String tag) {
-        ArrayList<T> result = new ArrayList<>();
-        for (Data<T> node : childNodes) {
+    public T getChildNodeByName(String tag) {
+        for (T node : childNodes) {
             if (!node.getTagName().equals(tag)) continue;
-            result.add((T) node);
+            return (T) node;
         }
-        return result;
+        return null;
     }
-    public ArrayList<T> getChildNodes(){
+
+    public ArrayList<T> getChildNodes() {
         return childNodes;
     }
 
