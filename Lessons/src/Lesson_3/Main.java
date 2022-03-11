@@ -66,18 +66,37 @@ public class Main {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            outputStream.write(ConvertToXML.toXml(root).toString().getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+//            outputStream.write(ConvertToXML.toXml(root).toString().getBytes(StandardCharsets.UTF_8));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        ConvertFromXML mapper = new ConvertFromXML(fileName);
+
         try {
-            mapper.readFile(fileName);
+            Data<Data> root2 = ConvertFromXML.start(fileName);
+            String fileName2 = "history2.xml";
+            File file2 = new File(fileName2);
+            if (!file2.exists()) {
+                try {
+                    file2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try (FileOutputStream outputStream = new FileOutputStream(file2)) {
+                outputStream.write(ConvertToXML.toXml(root2).toString().getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+
 
     }
 }
