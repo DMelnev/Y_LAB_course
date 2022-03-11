@@ -48,7 +48,7 @@ public class Main {
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
 
 
-        System.out.println(Converter.tooXml(root));
+        System.out.println(ConvertToXML.tooXml(root));
 
 
     }

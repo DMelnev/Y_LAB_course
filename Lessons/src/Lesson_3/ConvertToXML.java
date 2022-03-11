@@ -9,7 +9,7 @@ package Lesson_3;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Converter {
+public class ConvertToXML {
     private static final StringBuilder result = new StringBuilder();
     private static final StringBuilder begin =
             new StringBuilder("<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
@@ -18,16 +18,17 @@ public class Converter {
 
     public static StringBuilder tooXml(Data data) {
         StringBuilder result = new StringBuilder();
-        result.append(begin);
-        //root
-        result.append("\n<" + data.getTagName());
-        result.append(getAttributes(data.getAttributes()));
-        result.append(">");
+        result.append(begin); //по идее нужно тоже собрать, но пока так
 
-        result.append(scanData(data));
+        //root
+        result.append("\n<" + data.getTagName() + getAttributes(data.getAttributes()) + ">");
+
+        //body
+        result.append(scanData(data)); // запускаем рекурсию
 
         //end root
         result.append("\n</" + data.getTagName() + ">\n");
+
         return result;
     }
 
@@ -58,7 +59,7 @@ public class Converter {
                 result.append(">");
                 boolean flag = false;
                 if (part.getText().equals("")) {
-                    result.append(scanData(part)); // запускаем рекурсию
+                    result.append(scanData(part));
                     flag = true;
                 } else {
                     result.append(part.getText());
