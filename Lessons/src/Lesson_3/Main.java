@@ -85,7 +85,7 @@ public class Main {
                 }
             }
             try (FileOutputStream outputStream = new FileOutputStream(file2)) {
-                outputStream.write(DataToXML.toXml(root2).toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.write(DataToXML.start(root2).toString().getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }

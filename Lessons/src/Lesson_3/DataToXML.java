@@ -17,9 +17,9 @@ public class DataToXML {
     private static final StringBuilder INDENT = new StringBuilder("    "); //отступ
     private static StringBuilder currentIndent = new StringBuilder();
 
-    public static StringBuilder toXml(Data root) {
+    public static StringBuilder start(Data root) {
         StringBuilder result = new StringBuilder();
-        result.append(start); //по идее нужно тоже собрать, но пока так
+        result.append(start);
         //root
         result.append("\n<" + root.getTagName() + getAttributes(root.getAttributes()) + ">");
         //body
