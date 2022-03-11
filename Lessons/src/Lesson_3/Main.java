@@ -7,6 +7,7 @@
 package Lesson_3;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Data<Data> root = new Data<>("GamePlay", "");
         root.addChildNode(new Data<>("Player", "",
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
@@ -52,9 +53,10 @@ public class Main {
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
 
 
-        System.out.println(ConvertToXML.tooXml(root));
+//        System.out.println(ConvertToXML.toXml(root));
 
-        File file = new File("history.xml");
+        String fileName = "history.xml";
+        File file = new File(fileName);
 
         if (!file.exists()) {
             try {
@@ -64,10 +66,18 @@ public class Main {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(file, true)) {
-            outputStream.write(ConvertToXML.tooXml(root).toString().getBytes(StandardCharsets.UTF_8));
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(ConvertToXML.toXml(root).toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ConvertFromXML mapper = new ConvertFromXML(fileName);
+        try {
+            mapper.readFile(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

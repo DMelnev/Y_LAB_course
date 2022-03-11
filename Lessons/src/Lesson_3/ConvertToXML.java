@@ -10,37 +10,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConvertToXML {
-    private static final StringBuilder result = new StringBuilder();
-    private static final StringBuilder begin =
+
+    private static final StringBuilder start =
             new StringBuilder("<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
-    private static final StringBuilder INDENT = new StringBuilder("    ");
+
+    private static final StringBuilder INDENT = new StringBuilder("    "); //отступ
     private static StringBuilder currentIndent = new StringBuilder();
 
-    public static StringBuilder tooXml(Data data) {
+    public static StringBuilder toXml(Data root) {
         StringBuilder result = new StringBuilder();
-        result.append(begin); //по идее нужно тоже собрать, но пока так
+        result.append(start); //по идее нужно тоже собрать, но пока так
 
         //root
-        result.append("\n<" + data.getTagName() + getAttributes(data.getAttributes()) + ">");
+        result.append("\n<" + root.getTagName() + getAttributes(root.getAttributes()) + ">");
 
         //body
-        result.append(scanData(data)); // запускаем рекурсию
+        result.append(scanData(root)); // запускаем рекурсию
 
         //end root
-        result.append("\n</" + data.getTagName() + ">\n");
+        result.append("\n</" + root.getTagName() + ">\n");
 
         return result;
     }
 
-    public static StringBuilder getAttributes(HashMap<String, String> map) {
-        StringBuilder result = new StringBuilder();
-        if (map.size() > 0) {
-            map.forEach((k, v) -> {
-                result.append(" " + k + "=\"");
-                result.append(v + "\"");
+    public static StringBuilder getAttributes(HashMap<String, String> attr) {
+        StringBuilder res = new StringBuilder();
+        if (attr.size() > 0) {
+            attr.forEach((k, v) -> {
+                res.append(" " + k + "=\"");
+                res.append(v + "\"");
             });
         }
-        return result;
+        return res;
     }
 
     public static StringBuilder scanData(Data data) {
@@ -57,17 +58,15 @@ public class ConvertToXML {
                 result.append("/>");
             } else {
                 result.append(">");
-                boolean flag = false;
                 if (part.getText().equals("")) {
                     result.append(scanData(part));
-                    flag = true;
+                    currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
+                    result.append("\n" + currentIndent);
+
                 } else {
                     result.append(part.getText());
                 }
-                if (flag) {
-                    currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
-                    result.append("\n" + currentIndent);
-                }
+
                 result.append("</" + part.getTagName() + ">");
             }
         }
