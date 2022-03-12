@@ -24,7 +24,6 @@ public class ParserXML {
 
     public static Data<Data> dataFromFile(String file) throws Exception {
         Scanner scanner = new Scanner(new File(file));
-        String rootName;
         Data<Data> prev;
         Data<Data> current = null;
 
@@ -36,7 +35,7 @@ public class ParserXML {
             if (data[0].toLowerCase(Locale.ROOT).equals("<?xml")) {  // первая строка
                 nextLine = correctSpaces(scanner.nextLine()).trim();
                 data = nextLine.split(" ");
-                rootName = data[0].substring(1, data[0].length() - 1); //забираем root name
+                String rootName = data[0].substring(1, data[0].length() - 1); //забираем root name
                 result = new Data(rootName, "");
                 current = result;
                 continue;
@@ -171,18 +170,18 @@ public class ParserXML {
         return res;
     }
 
-    private static String correctSpaces(String string) {
+    private static String correctSpaces(String line) {
 
-        string = string.replace(" />", "/>");
-        string = string.replace("</ ", "</");
-        string = string.replace("< ", "<");
-        string = string.replace("<", " <");
-        string = string.replace(" >", ">");
-        string = string.replace(">", "> ");
+        line = line.replace(" />", "/>");
+        line = line.replace("</ ", "</");
+        line = line.replace("< ", "<");
+        line = line.replace("<", " <");
+        line = line.replace(" >", ">");
+        line = line.replace(">", "> ");
 
-        while (string.contains("  ")) {
-            string = string.replace("  ", " ");
+        while (line.contains("  ")) {
+            line = line.replace("  ", " ");
         }
-        return string;
+        return line;
     }
 }

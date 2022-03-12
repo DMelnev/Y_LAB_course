@@ -1,6 +1,5 @@
 package Lesson_3;
 
-
 /**
  * class Main
  *
