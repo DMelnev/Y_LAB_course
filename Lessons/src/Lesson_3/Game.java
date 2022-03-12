@@ -10,10 +10,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     char[][] map;
@@ -28,28 +25,51 @@ public class Game {
     Scanner input = new Scanner(System.in);
     Random rnd = new Random();
 
-    int aiX, aiY, step;
+    int aiX, aiY, step, stepGame, Game;
     boolean isAI;
     char[][] temp;
     String name1, name2, result;
     ArrayList<Coordinate> list = new ArrayList<>();
+    Data<Data> root;
+
+    public Game(Data root) {
+        this.root = root;
+
+    }
 
     public void run() {
         boolean cont = true;
+        stepGame = 1;
+        Game = 1;
         while (cont) {
             enterMapSize();
             initMap();
             inputName();
+            root.addChildNode(new Data<>("Player", "",
+                    new HashMap<>(Map.of("id", "1", "name", name1, "symbol", "X"))));
+            root.addChildNode(new Data<>("Player", "",
+                    new HashMap<>(Map.of("id", "2", "name", name2, "symbol", "O"))));
+            Data<Data> game = new Data<>("Game");
+            root.addChildNode(game);
             int k = 1;
             while (true) {
                 if (k > 2) k = 1;
                 if (!isAI || k == 1) printMap();
-                move(k);
+                int[] tmp = move(k);
+
+                game.addChildNode(new Data("Step", (tmp[1] + 1) + "," + (tmp[0] + 1)
+                        , new HashMap<>(Map.of("num", String.valueOf(stepGame), "playerId", String.valueOf(k)))));
+
                 if (checkWin(DOT_HUMAN, map)) {
                     printMap();
                     if (isAI) System.out.println("Вы победили!");
                     else System.out.println(name1 + " победил!");
                     result = " выиграл у ";
+
+                    Data<Data> gameResult = new Data<>("GameResult");
+                    game.addChildNode(gameResult);
+                    gameResult.addChildNode(new Data<>("Player", "",
+                            new HashMap<>(Map.of("id", "1", "name", name1, "symbol", "X"))));
                     break;
                 }
                 if (checkWin(DOT_AI, map)) {
@@ -57,20 +77,27 @@ public class Game {
                     if (isAI) System.out.println("Вы проиграли!");
                     else System.out.println(name2 + " победил!");
                     result = " проиграл ";
+                    Data<Data> gameResult = new Data<>("GameResult");
+                    game.addChildNode(gameResult);
+                    gameResult.addChildNode(new Data<>("Player", "",
+                            new HashMap<>(Map.of("id", "2", "name", name2, "symbol", "O"))));
                     break;
                 }
                 if (checkDrawn()) {
                     printMap();
                     System.out.println("Ничья!");
                     result = " съиграл в ничью с ";
+                    game.addChildNode(new Data<>("GameResult", "Draw!"));
                     break;
                 }
                 k++;
+                stepGame++;
             }
             writeToFile();
             System.out.println("Желаете еще раз? (Y/N)");
             String tmp = input.next();
             cont = tmp.equals("Y") || tmp.equals("y");
+            stepGame = 1;
         }
     }
 
@@ -149,23 +176,27 @@ public class Game {
         }
     }
 
-    private void move(int num) {
-
+    private int[] move(int num) {
+        int[] tmp = new int[2];
         switch (num) {
             case (1):
-                int[] tmp = inputStep(name1);
+                tmp = inputStep(name1);
                 map[tmp[0]][tmp[1]] = DOT_HUMAN;
                 break;
             case (2):
-                if (isAI) moveAI();
-                else {
-                    int[] tmp2 = inputStep(name2);
-                    map[tmp2[0]][tmp2[1]] = DOT_AI;
+                if (isAI) {
+                    moveAI();
+                    tmp[0] = aiX;
+                    tmp[1] = aiY;
+                } else {
+                    tmp = inputStep(name2);
+                    map[tmp[0]][tmp[1]] = DOT_AI;
                 }
                 break;
             default:
                 throw new IndexOutOfBoundsException("Argument of method \"move\" is not valid");
         }
+        return tmp;
     }
 
     private int[] inputStep(String name) {
@@ -176,6 +207,7 @@ public class Game {
             x = input.nextInt() - 1;
             if (checkInput(x, y)) System.out.println("Ход не засчитан.");
         } while (checkInput(x, y));
+
         return new int[]{x, y};
     }
 

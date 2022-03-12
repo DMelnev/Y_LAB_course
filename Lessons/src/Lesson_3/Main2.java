@@ -25,6 +25,7 @@ public class Main2 {
 
         Data<Data> game = new Data<>("Game");
         root.addChildNode(game);
+
         game.addChildNode(new Data<>("Step", "1,1"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
         game.addChildNode(new Data<>("Step", "1,2"
