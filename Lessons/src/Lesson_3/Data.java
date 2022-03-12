@@ -10,15 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Data<T extends Data> {
-    private String tagName;
+    private final String tagName;
     private HashMap<String, String> attributes = new HashMap<>();
-    private String text;
-    private ArrayList<T> childNodes = new ArrayList<>();
+    private final String text;
+    private final ArrayList<T> childNodes = new ArrayList<>();
     private Data<T> parent;
 
     public Data(String tagName, String text) {
         this.tagName = tagName;
         this.text = text;
+    }
+
+    public Data(String tagName) {
+        this.tagName = tagName;
+        this.text = "";
     }
 
     public Data(String tagName, String text, HashMap<String, String> attributes) {
@@ -30,7 +35,7 @@ public class Data<T extends Data> {
     public T getChildNodeByName(String tag) {
         for (T node : childNodes) {
             if (!node.getTagName().equals(tag)) continue;
-            return (T) node;
+            return node;
         }
         return null;
     }

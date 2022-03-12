@@ -16,14 +16,14 @@ import java.util.Map;
 
 public class Main2 {
     public static void main(String[] args) throws FileNotFoundException {
-        Data<Data> root = new Data<>("GamePlay", "");
+        Data<Data> root = new Data<>("GamePlay");
         root.addChildNode(new Data<>("Player", "",
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
         root.addChildNode(new Data<>("Player", "",
                 new HashMap<>(Map.of("id", "2", "name", "Anna", "symbol", "O"))));
 
 
-        Data<Data> game = new Data<>("Game", "");
+        Data<Data> game = new Data<>("Game");
         root.addChildNode(game);
         game.addChildNode(new Data<>("Step", "1,1"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
@@ -36,18 +36,18 @@ public class Main2 {
         game.addChildNode(new Data<>("Step", "3,3"
                 , new HashMap<>(Map.of("num", "5", "playerId", "1"))));
 
-        Data<Data> test = new Data<>("Test1", "");
+        Data<Data> test = new Data<>("Test1");
         root.addChildNode(test);
-        Data<Data> test2 = new Data<>("Test2", "");
+        Data<Data> test2 = new Data<>("Test2");
         test.addChildNode(test2);
-        Data<Data> test3 = new Data<>("Test3", "");
+        Data<Data> test3 = new Data<>("Test3");
         test.addChildNode(test3);
         test3.addChildNode(new Data<>("Step", "2,2"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
         test3.addChildNode(new Data<>("Step", "3,3"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
 
-        Data<Data> gameResult = new Data<>("GameResult", "");
+        Data<Data> gameResult = new Data<>("GameResult");
         root.addChildNode(gameResult);
         gameResult.addChildNode(new Data<>("Player", "",
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
