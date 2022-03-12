@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <GamePlay>
-    <Player name="1" symbol="X" id="1"/>
-    <Player name="AI" symbol="O" id="2"/>
+    <Player symbol="X" name="1" id="1"/>
+    <Player symbol="O" name="AI" id="2"/>
     <Game>
         <Step num="1" playerId="1">2,2</Step>
-        <Step num="2" playerId="2">3,1</Step>
-        <Step num="3" playerId="1">1,3</Step>
-        <Step num="4" playerId="2">3,2</Step>
-        <Step num="5" playerId="1">3,3</Step>
-        <Step num="6" playerId="2">2,3</Step>
-        <Step num="7" playerId="1">1,1</Step>
-        <GameResult>
-            <Player name="1" symbol="X" id="1"/>
-        </GameResult>
+        <Step num="2" playerId="2">1,3</Step>
+        <Step num="3" playerId="1">3,1</Step>
+        <Step num="4" playerId="2">1,2</Step>
+        <Step num="5" playerId="1">1,1</Step>
+        <Step num="6" playerId="2">1,4</Step>
     </Game>
+    <GameResult>
+        <Player symbol="O" name="AI" id="2"/>
+    </GameResult>
+    <Player symbol="X" name="1" id="1"/>
+    <Player symbol="O" name="AI" id="2"/>
+    <Game>
+        <Step num="1" playerId="1">2,2</Step>
+        <Step num="2" playerId="2">1,3</Step>
+        <Step num="3" playerId="1">3,2</Step>
+        <Step num="4" playerId="2">1,2</Step>
+        <Step num="5" playerId="1">4,2</Step>
+    </Game>
+    <GameResult>
+        <Player symbol="X" name="1" id="1"/>
+    </GameResult>
 </GamePlay>

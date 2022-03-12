@@ -45,10 +45,8 @@ public class Game {
             enterMapSize();
             initMap();
             inputName();
-            root.addChildNode(new Data<>("Player", "",
-                    new HashMap<>(Map.of("id", "1", "name", name1, "symbol", "X"))));
-            root.addChildNode(new Data<>("Player", "",
-                    new HashMap<>(Map.of("id", "2", "name", name2, "symbol", "O"))));
+            root.addChildNode("Player", "", "id", "1", "name", name1, "symbol", "X");
+            root.addChildNode("Player", "", "id", "2", "name", name2, "symbol", "O");
             Data<Data> game = new Data<>("Game");
             root.addChildNode(game);
             int k = 1;
@@ -57,8 +55,8 @@ public class Game {
                 if (!isAI || k == 1) printMap();
                 int[] tmp = move(k);
 
-                game.addChildNode(new Data("Step", (tmp[1] + 1) + "," + (tmp[0] + 1)
-                        , new HashMap<>(Map.of("num", String.valueOf(stepGame), "playerId", String.valueOf(k)))));
+                game.addChildNode("Step", (tmp[1] + 1) + "," + (tmp[0] + 1)
+                        , "num", String.valueOf(stepGame), "playerId", String.valueOf(k));
 
                 if (checkWin(DOT_HUMAN, map)) {
                     printMap();
@@ -68,8 +66,8 @@ public class Game {
 
                     Data<Data> gameResult = new Data<>("GameResult");
                     game.addChildNode(gameResult);
-                    gameResult.addChildNode(new Data<>("Player", "",
-                            new HashMap<>(Map.of("id", "1", "name", name1, "symbol", "X"))));
+                    gameResult.addChildNode("Player", "",
+                            "id", String.valueOf(k), "name", name1, "symbol", "X");
                     break;
                 }
                 if (checkWin(DOT_AI, map)) {
@@ -79,15 +77,15 @@ public class Game {
                     result = " проиграл ";
                     Data<Data> gameResult = new Data<>("GameResult");
                     game.addChildNode(gameResult);
-                    gameResult.addChildNode(new Data<>("Player", "",
-                            new HashMap<>(Map.of("id", "2", "name", name2, "symbol", "O"))));
+                    gameResult.addChildNode("Player", "",
+                            "id", String.valueOf(k), "name", name2, "symbol", "O");
                     break;
                 }
                 if (checkDrawn()) {
                     printMap();
                     System.out.println("Ничья!");
                     result = " съиграл в ничью с ";
-                    game.addChildNode(new Data<>("GameResult", "Draw!"));
+                    game.addChildNode("GameResult", "Draw!");
                     break;
                 }
                 k++;
