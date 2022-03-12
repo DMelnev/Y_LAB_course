@@ -1,9 +1,4 @@
-/**
- * class Game
- *
- * @author Melnev Dmitry
- * @version 2022
- */
+
 package Lesson_3;
 
 import java.io.File;
@@ -12,6 +7,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+/**
+ * class Game
+ *
+ * @author Melnev Dmitry
+ * @version 2022
+ */
 public class Game {
     char[][] map;
     protected int size; //размер поля
@@ -20,7 +21,7 @@ public class Game {
     final char DOT_HUMAN = 'X';
     final char DOT_AI = 'O';
 
-    File file = new File("statistic.txt");
+    final File FILE = new File("statistic.txt");
 
     Scanner input = new Scanner(System.in);
     Random rnd = new Random();
@@ -30,7 +31,7 @@ public class Game {
     char[][] temp;
     String name1, name2, result;
     ArrayList<Coordinate> list = new ArrayList<>();
-    Data<Data> root;
+    Data root;
 
     public Game(Data root) {
         this.root = root;
@@ -47,7 +48,7 @@ public class Game {
             inputName();
             root.addChildNode("Player", "", "id", "1", "name", name1, "symbol", "X");
             root.addChildNode("Player", "", "id", "2", "name", name2, "symbol", "O");
-            Data<Data> game = new Data<>("Game");
+            Data game = new Data("Game");
             root.addChildNode(game);
             int k = 1;
             while (true) {
@@ -64,7 +65,7 @@ public class Game {
                     else System.out.println(name1 + " победил!");
                     result = " выиграл у ";
 
-                    Data<Data> gameResult = new Data<>("GameResult");
+                    Data gameResult = new Data("GameResult");
                     game.addChildNode(gameResult);
                     gameResult.addChildNode("Player", "",
                             "id", String.valueOf(k), "name", name1, "symbol", "X");
@@ -75,7 +76,7 @@ public class Game {
                     if (isAI) System.out.println("Вы проиграли!");
                     else System.out.println(name2 + " победил!");
                     result = " проиграл ";
-                    Data<Data> gameResult = new Data<>("GameResult");
+                    Data gameResult = new Data("GameResult");
                     game.addChildNode(gameResult);
                     gameResult.addChildNode("Player", "",
                             "id", String.valueOf(k), "name", name2, "symbol", "O");
@@ -159,15 +160,15 @@ public class Game {
     private void writeToFile() {
         String text = name1 + result + name2 + "\n";
 
-        if (!file.exists()) {
+        if (!FILE.exists()) {
             try {
-                file.createNewFile();
+                FILE.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(file, true)) {
+        try (FileOutputStream outputStream = new FileOutputStream(FILE, true)) {
             outputStream.write(text.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();

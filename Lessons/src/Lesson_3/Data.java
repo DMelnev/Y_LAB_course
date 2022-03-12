@@ -1,21 +1,20 @@
+package Lesson_3;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Class Data
  *
  * @author Melnev Dmitriy
  * @version 2022-
  **/
-package Lesson_3;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-public class Data<T extends Data> {
+public class Data {
     private final String tagName;
     private HashMap<String, String> attributes = new HashMap<>();
     private final String text;
-    private final ArrayList<T> childNodes = new ArrayList<>();
-    private Data<T> parent;
+    private final ArrayList<Data> childNodes = new ArrayList<>();
+    private Data parent;
 
     public Data(String tagName, String text) {
         this.tagName = tagName;
@@ -33,29 +32,25 @@ public class Data<T extends Data> {
         this.attributes = attributes;
     }
 
-    public T getChildNodeByName(String tag) {
-        for (T node : childNodes) {
-            if (!node.getTagName().equals(tag)) continue;
-            return node;
-        }
-        return null;
-    }
+//    public Data getChildNodeByName(String tag) {
+//        for (Data node : childNodes) {
+//            if (!node.getTagName().equals(tag)) continue;
+//            return node;
+//        }
+//        return null;
+//    }
 
-    public ArrayList<T> getChildNodes() {
+    public ArrayList<Data> getChildNodes() {
         return childNodes;
     }
 
-    public void addChildNode(Data<T> childNode) {
-        childNodes.add((T) childNode);
+    public void addChildNode(Data childNode) {
+        childNodes.add(childNode);
     }
 
     public void addChildNode(String tagName, String text) {
-        Data<T> child = new Data<>(tagName, text);
+        Data child = new Data(tagName, text);
         addChildNode(child);
-    }
-
-    public void addChildNode(String tagName) {
-        addChildNode(new Data<>(tagName));
     }
 
     public void addChildNode(String tagName, String text, String... attr) {
@@ -64,12 +59,8 @@ public class Data<T extends Data> {
             if ((i + 1) >= attr.length) break;
             map.put(attr[i], attr[i + 1]);
         }
-        addChildNode(new Data<>(tagName, text, map));
+        addChildNode(new Data(tagName, text, map));
     }
-
-
-//        addChildNode(new Data<>("Player", "",
-//                new HashMap<>(Map.of("id", "1", "name", name1, "symbol", "X"))));
 
     public String getTagName() {
         return tagName;
@@ -83,11 +74,11 @@ public class Data<T extends Data> {
         return attributes;
     }
 
-    public Data<T> getParent() {
+    public Data getParent() {
         return parent;
     }
 
-    public void setParent(Data<T> parent) {
+    public void setParent(Data parent) {
         this.parent = parent;
     }
 }

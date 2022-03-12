@@ -1,9 +1,3 @@
-/**
- * class ConvertFromXML
- *
- * @author Melnev Dmitry
- * @version 2022
- */
 package Lesson_3;
 
 import java.io.File;
@@ -12,6 +6,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * class ConvertFromXML
+ *
+ * @author Melnev Dmitry
+ * @version 2022
+ */
 public class ParserXML {
 
     private static Data result;
@@ -22,10 +22,10 @@ public class ParserXML {
     private static final StringBuilder INDENT = new StringBuilder("    "); //отступ
     private static StringBuilder currentIndent = new StringBuilder();
 
-    public static Data<Data> dataFromFile(String file) throws Exception {
+    public static Data dataFromFile(String file) throws Exception {
         Scanner scanner = new Scanner(new File(file));
-        Data<Data> prev;
-        Data<Data> current = null;
+        Data prev;
+        Data current = null;
 
         while (scanner.hasNext()) {
             String nextLine = correctSpaces(scanner.nextLine()).trim();
@@ -59,7 +59,7 @@ public class ParserXML {
                         String second = attrData[1].replace("\"", "").replace("/>", "");
                         map.put(attrData[0], second);
                     }
-                    current.addChildNode(new Data<>(name, text, map));
+                    current.addChildNode(new Data(name, text, map));
                     continue;
                 }
 
@@ -76,7 +76,7 @@ public class ParserXML {
                         j++;
                     }
                     if (max - j == 2) text = data[max - 1];
-                    current.addChildNode(new Data<>(name, text, map));
+                    current.addChildNode(new Data(name, text, map));
                     continue;
                 }
 
@@ -90,7 +90,7 @@ public class ParserXML {
                         map.put(attrData[0], second);
                     }
                     prev = current;
-                    current = new Data<>(name, text, map);
+                    current = new Data(name, text, map);
                     prev.addChildNode(current);
                     current.setParent(prev);
                     continue;
@@ -102,13 +102,13 @@ public class ParserXML {
                     continue;
                 }
                 if (data[0].endsWith("/>")) {//новый тег без спуска
-                    current.addChildNode(new Data<>(data[0].substring(1, data[0].length() - 2), ""));
+                    current.addChildNode(new Data(data[0].substring(1, data[0].length() - 2), ""));
                     continue;
                 }
                 //новый тэг и спускаемся в него
                 if (data[0].startsWith("<") && data[0].endsWith(">") && !data[0].contains("/")) {
                     prev = current;
-                    current = new Data<>(data[0].substring(1, data[0].length() - 1), "");
+                    current = new Data(data[0].substring(1, data[0].length() - 1), "");
                     current.setParent(prev);
                     prev.addChildNode(current);
                     continue;
@@ -121,14 +121,14 @@ public class ParserXML {
 
     public static StringBuilder dataToXML(Data root) {
         StringBuilder result = new StringBuilder();
-        currentIndent = new StringBuilder("");
+        currentIndent = new StringBuilder();
         result.append(START);
         //root
-        result.append("\n<" + root.getTagName() + getAttributes(root.getAttributes()) + ">");
+        result.append("\n<").append(root.getTagName()).append(getAttributes(root.getAttributes())).append(">");
         //body
         result.append(scanData(root)); // запускаем рекурсию
         //end root
-        result.append("\n</" + root.getTagName() + ">\n");
+        result.append("\n</").append(root.getTagName()).append(">\n");
         return result;
     }
 
@@ -139,7 +139,7 @@ public class ParserXML {
 
         for (Data part : list) {
 
-            result.append("\n" + currentIndent + "<" + part.getTagName());
+            result.append("\n").append(currentIndent).append("<").append(part.getTagName());
             result.append(getAttributes(part.getAttributes()));
 
             if ((part.getText().equals("")) && (part.getChildNodes().size() <= 0)) {
@@ -149,13 +149,13 @@ public class ParserXML {
                 if (part.getText().equals("")) {
                     result.append(scanData(part));
                     currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
-                    result.append("\n" + currentIndent);
+                    result.append("\n").append(currentIndent);
 
                 } else {
                     result.append(part.getText());
                 }
 
-                result.append("</" + part.getTagName() + ">");
+                result.append("</").append(part.getTagName()).append(">");
             }
         }
         return result;
@@ -165,7 +165,7 @@ public class ParserXML {
         StringBuilder res = new StringBuilder();
         if (attr.size() > 0) {
             attr.forEach((k, v) ->
-                    res.append(" " + k + "=\"" + v + "\""));
+                    res.append(" ").append(k).append("=\"").append(v).append("\""));
         }
         return res;
     }

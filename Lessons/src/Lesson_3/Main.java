@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Data<Data> root = new Data<>("GamePlay");
+        Data root = new Data("GamePlay");
         Game game = new Game(root);
         game.run();
 

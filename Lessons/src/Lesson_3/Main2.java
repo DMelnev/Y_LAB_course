@@ -16,41 +16,41 @@ import java.util.Map;
 
 public class Main2 {
     public static void main(String[] args) throws FileNotFoundException {
-        Data<Data> root = new Data<>("GamePlay");
-        root.addChildNode(new Data<>("Player", "",
+        Data root = new Data("GamePlay");
+        root.addChildNode(new Data("Player", "",
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
-        root.addChildNode(new Data<>("Player", "",
+        root.addChildNode(new Data("Player", "",
                 new HashMap<>(Map.of("id", "2", "name", "Anna", "symbol", "O"))));
 
 
-        Data<Data> game = new Data<>("Game");
+        Data game = new Data("Game");
         root.addChildNode(game);
 
-        game.addChildNode(new Data<>("Step", "1,1"
+        game.addChildNode(new Data("Step", "1,1"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
-        game.addChildNode(new Data<>("Step", "1,2"
+        game.addChildNode(new Data("Step", "1,2"
                 , new HashMap<>(Map.of("num", "2", "playerId", "2"))));
-        game.addChildNode(new Data<>("Step", "2,2"
+        game.addChildNode(new Data("Step", "2,2"
                 , new HashMap<>(Map.of("num", "3", "playerId", "1"))));
-        game.addChildNode(new Data<>("Step", "2,1"
+        game.addChildNode(new Data("Step", "2,1"
                 , new HashMap<>(Map.of("num", "4", "playerId", "2"))));
-        game.addChildNode(new Data<>("Step", "3,3"
+        game.addChildNode(new Data("Step", "3,3"
                 , new HashMap<>(Map.of("num", "5", "playerId", "1"))));
 
-        Data<Data> test = new Data<>("Test1");
+        Data test = new Data("Test1");
         root.addChildNode(test);
-        Data<Data> test2 = new Data<>("Test2");
+        Data test2 = new Data("Test2");
         test.addChildNode(test2);
-        Data<Data> test3 = new Data<>("Test3");
+        Data test3 = new Data("Test3");
         test.addChildNode(test3);
-        test3.addChildNode(new Data<>("Step", "2,2"
+        test3.addChildNode(new Data("Step", "2,2"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
-        test3.addChildNode(new Data<>("Step", "3,3"
+        test3.addChildNode(new Data("Step", "3,3"
                 , new HashMap<>(Map.of("num", "1", "playerId", "1"))));
 
-        Data<Data> gameResult = new Data<>("GameResult");
+        Data gameResult = new Data("GameResult");
         root.addChildNode(gameResult);
-        gameResult.addChildNode(new Data<>("Player", "",
+        gameResult.addChildNode(new Data("Player", "",
                 new HashMap<>(Map.of("id", "1", "name", "Igor", "symbol", "X"))));
 
 
@@ -75,7 +75,7 @@ public class Main2 {
 
 
         try {
-            Data<Data> root2 = ParserXML.dataFromFile(fileName);
+            Data root2 = ParserXML.dataFromFile(fileName);
             String fileName2 = "history2.xml";
             File file2 = new File(fileName2);
             if (!file2.exists()) {
