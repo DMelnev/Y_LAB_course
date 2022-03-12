@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main {
+public class Main2 {
     public static void main(String[] args) throws FileNotFoundException {
         Data<Data> root = new Data<>("GamePlay", "");
         root.addChildNode(new Data<>("Player", "",
@@ -66,15 +66,15 @@ public class Main {
             }
         }
 
-//        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-//            outputStream.write(ConvertToXML.toXml(root).toString().getBytes(StandardCharsets.UTF_8));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(ParserXML.dataToXML(root).toString().getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         try {
-            Data<Data> root2 = DataFromXML.start(fileName);
+            Data<Data> root2 = ParserXML.dataFromFile(fileName);
             String fileName2 = "history2.xml";
             File file2 = new File(fileName2);
             if (!file2.exists()) {
@@ -85,7 +85,7 @@ public class Main {
                 }
             }
             try (FileOutputStream outputStream = new FileOutputStream(file2)) {
-                outputStream.write(DataToXML.start(root2).toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.write(ParserXML.dataToXML(root2).toString().getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -7,22 +7,25 @@
 package Lesson_3;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class DataFromXML {
-    private static String FILE;
+public class ParserXML {
+
     private static Data result;
 
-    public DataFromXML(String file) {
-        FILE = file;
-    }
+    private static final StringBuilder start =
+            new StringBuilder("<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
 
-    public static Data<Data> start(String file) throws Exception {
+    private static final StringBuilder INDENT = new StringBuilder("    "); //отступ
+    private static StringBuilder currentIndent = new StringBuilder();
+
+    public static Data<Data> dataFromFile(String file) throws Exception {
         Scanner scanner = new Scanner(new File(file));
-        String rootName = null;
-        Data<Data> prev = null;
+        String rootName;
+        Data<Data> prev;
         Data<Data> current = null;
 
         while (scanner.hasNext()) {
@@ -114,6 +117,59 @@ public class DataFromXML {
             throw new Exception("File is not correct");
         }
         return result;
+    }
+
+    public static StringBuilder dataToXML(Data root) {
+        StringBuilder result = new StringBuilder();
+        currentIndent = new StringBuilder("");
+        result.append(start);
+        //root
+        result.append("\n<" + root.getTagName() + getAttributes(root.getAttributes()) + ">");
+        //body
+        result.append(scanData(root)); // запускаем рекурсию
+        //end root
+        result.append("\n</" + root.getTagName() + ">\n");
+        return result;
+    }
+
+    private static StringBuilder scanData(Data data) {
+        currentIndent.append(INDENT); // добавляем отступы
+        StringBuilder result = new StringBuilder();
+        ArrayList<Data> list = data.getChildNodes(); //не получилось впихнуть сразу в foreach(((
+
+        for (Data part : list) {
+
+            result.append("\n" + currentIndent + "<" + part.getTagName());
+            result.append(getAttributes(part.getAttributes()));
+
+            if ((part.getText().equals("")) && (part.getChildNodes().size() <= 0)) {
+                result.append("/>");
+            } else {
+                result.append(">");
+                if (part.getText().equals("")) {
+                    result.append(scanData(part));
+                    currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
+                    result.append("\n" + currentIndent);
+
+                } else {
+                    result.append(part.getText());
+                }
+
+                result.append("</" + part.getTagName() + ">");
+            }
+        }
+        return result;
+    }
+
+    private static StringBuilder getAttributes(HashMap<String, String> attr) {
+        StringBuilder res = new StringBuilder();
+        if (attr.size() > 0) {
+            attr.forEach((k, v) -> {
+                res.append(" " + k + "=\"");
+                res.append(v + "\"");
+            });
+        }
+        return res;
     }
 
     private static String correctSpaces(String string) {

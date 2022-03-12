@@ -18,6 +18,5 @@
     </Test1>
     <GameResult>
         <Player symbol="X" name="Igor" id="1"/>
-        <Player symbol="X" name="Igor" id="5"/>
     </GameResult>
 </GamePlay>

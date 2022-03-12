@@ -46,7 +46,10 @@ public class Data<T extends Data> {
     public String getTagName() {
         return tagName;
     }
-    public String getText(){return text;}
+
+    public String getText() {
+        return text;
+    }
 
     public HashMap<String, String> getAttributes() {
         return attributes;
