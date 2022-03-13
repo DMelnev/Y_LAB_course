@@ -3,10 +3,7 @@ package Lesson_3;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * class ConvertFromXML
@@ -58,7 +55,7 @@ public class ParserXML {
 
             if (data.length > 1) {//************************************************
                 int max = data.length - 1;
-                String name = data[0].replace("<", "");
+                String name = data[0].replace("<", "").replace(">","");
                 HashMap<String, String> map = new HashMap<>();
                 String text = "";
 
@@ -77,17 +74,24 @@ public class ParserXML {
 
                 if (data[(max)].contains("</")) {//************************************************
                     int j = 1;
-                    while (j < max) {
-                        String[] attrData = data[j].split("=");
-                        if (attrData.length != 2) {
-                            throw new IndexOutOfBoundsException("File is not correct");
+//                    System.out.println(max);
+                    if (max != 2) {
+                        while (j < max) {
+                            String[] attrData = data[j].split("=");
+                            if (attrData.length != 2) {
+
+                                System.out.println(Arrays.toString(data));
+                                System.out.println(attrData[0]);
+                                throw new IndexOutOfBoundsException("File is not correct");
+                            }
+                            String second = attrData[1].replace("\"", "").replace(">", "");
+                            map.put(attrData[0], second);
+                            if (data[j].contains(">")) break;
+                            j++;
                         }
-                        String second = attrData[1].replace("\"", "").replace(">", "");
-                        map.put(attrData[0], second);
-                        if (data[j].contains(">")) break;
-                        j++;
                     }
-                    if (max - j == 2) text = data[max - 1];
+                    if ((max - j == 2) || (max == 2)) text = data[max - 1];
+                    System.out.println(name);
                     current.addChildNode(new Data(name, text, map));
                     continue;
                 }
@@ -144,30 +148,30 @@ public class ParserXML {
         return result;
     }
 
-    private static StringBuilder scanData(Data data) {
+    private static StringBuilder scanData(Data root) {
         currentIndent.append(INDENT); // добавляем отступы
         StringBuilder result = new StringBuilder();
-        ArrayList<Data> list = data.getChildNodes();
+        ArrayList<Data> list = root.getChildNodes();
 
-        for (Data part : list) {
+        for (Data node : list) {
 
-            result.append("\n").append(currentIndent).append("<").append(part.getTagName());
-            result.append(getAttributes(part.getAttributes()));
+            result.append("\n").append(currentIndent).append("<").append(node.getTagName());
+            result.append(getAttributes(node.getAttributes()));
 
-            if ((part.getText().equals("")) && (part.getChildNodes().size() <= 0)) {
+            if ((node.getText().equals("")) && (node.getChildNodes().size() <= 0)) {
                 result.append("/>");
             } else {
                 result.append(">");
-                if (part.getText().equals("")) {
-                    result.append(scanData(part));
+                if (node.getText().equals("")) {
+                    result.append(scanData(node));
                     currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
                     result.append("\n").append(currentIndent);
 
                 } else {
-                    result.append(part.getText());
+                    result.append(node.getText());
                 }
 
-                result.append("</").append(part.getTagName()).append(">");
+                result.append("</").append(node.getTagName()).append(">");
             }
         }
         return result;

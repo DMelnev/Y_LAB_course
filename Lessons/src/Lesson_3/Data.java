@@ -40,13 +40,17 @@ public class Data {
         this.text = text;
         this.attributes = map;
     }
-//    public Data getChildNodeByName(String tag) {
-//        for (Data node : childNodes) {
-//            if (!node.getTagName().equals(tag)) continue;
-//            return node;
-//        }
-//        return null;
-//    }
+    public Data getChildNodeByName(String tag) {
+        for (Data node : childNodes) {
+            if (!node.getTagName().equals(tag)) continue;
+            return node;
+        }
+        return null;
+    }
+
+    public String getAttrByName(String name){
+        return attributes.get(name);
+    }
 
     public ArrayList<Data> getChildNodes() {
         return childNodes;
@@ -88,5 +92,14 @@ public class Data {
 
     public void setParent(Data parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "tagName='" + tagName + '\'' +
+                ", attributes=" + attributes +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

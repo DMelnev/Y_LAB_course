@@ -312,4 +312,34 @@ public class Game {
         }
         return false;
     }
+
+    public void player(String fileName) throws Exception {
+        Data root = ParserXML.dataFromFile(fileName);
+        if (!root.getTagName().equals("GamePlay")) {
+            System.out.println("Не верный формат файла");
+            return;
+        }
+
+        for (Data game : root.getChildNodes()) {
+            System.out.printf("Game %s set %s",
+                    game.getAttrByName("map"),
+                    game.getAttrByName("set"));
+            for (Data step : game.getChildNodes()) {
+                if (step.getTagName().equals("GameResult")) {
+                    if (step.getText().equals("Draw!")) {
+                        System.out.println("Draw!");
+                    }
+                    Data winner = step.getChildNodeByName("Player");
+                    System.out.printf("Player %s -> %s is winner as '%s'!",
+                            winner.getAttrByName("id"),
+                            winner.getAttrByName("name"),
+                            winner.getAttrByName("symbol"));
+                }
+                if (step.getTagName().equals("Step")){
+
+                }
+            }
+        }
+
+    }
 }

@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
  */
 
 public class Main {
-    private final static String FILE_NAME = "victim.xml";
+    private final static String FILE_NAME = "log.xml";
 
     public static void main(String[] args) {
 
