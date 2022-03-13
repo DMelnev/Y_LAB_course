@@ -40,5 +40,13 @@ public class Main {
 
         System.out.println("Спасибо за игру.");
 
+        try {
+
+            game.player("log.xml");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
