@@ -42,7 +42,7 @@ public class Main {
 
         try {
 
-            game.player("log.xml");
+            game.player(FILE_NAME);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,12 +1,11 @@
 package Lesson_3;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
 /**
- * class ConvertFromXML
+ * class ParserXML
  *
  * @author Melnev Dmitry
  * @version 2022
@@ -55,7 +54,7 @@ public class ParserXML {
 
             if (data.length > 1) {//************************************************
                 int max = data.length - 1;
-                String name = data[0].replace("<", "").replace(">","");
+                String name = data[0].replace("<", "").replace(">", "");
                 HashMap<String, String> map = new HashMap<>();
                 String text = "";
 
@@ -98,7 +97,9 @@ public class ParserXML {
                         if (attrData.length != 2) {
                             throw new IndexOutOfBoundsException("File is not correct");
                         }
-                        String second = attrData[1].replace("\"", "").replace(">", "");
+                        String second = attrData[1]
+                                .replace("\"", "")
+                                .replace(">", "");
                         map.put(attrData[0], second);
                     }
                     prev = current;
@@ -136,7 +137,10 @@ public class ParserXML {
         currentIndent = new StringBuilder();
         result.append(START);
         //root
-        result.append("\n<").append(root.getTagName()).append(getAttributes(root.getAttributes())).append(">");
+        result.append("\n<")
+                .append(root.getTagName())
+                .append(getAttributes(root.getAttributes()))
+                .append(">");
         //body
         result.append(scanData(root)); // запускаем рекурсию
         //end root
@@ -150,24 +154,28 @@ public class ParserXML {
         ArrayList<Data> list = root.getChildNodes();
 
         for (Data node : list) {
+            result.append("\n")
+                    .append(currentIndent)
+                    .append("<")
+                    .append(node.getTagName()) //имя тега
+                    .append(getAttributes(node.getAttributes())); //атрибуты если есть
 
-            result.append("\n").append(currentIndent).append("<").append(node.getTagName());
-            result.append(getAttributes(node.getAttributes()));
-
-            if ((node.getText().equals("")) && (node.getChildNodes().size() <= 0)) {
+            if ((node.getText().equals("")) && (node.getChildNodes().size() <= 0)) { // если нет текста и тег одинок )
                 result.append("/>");
             } else {
-                result.append(">");
-                if (node.getText().equals("")) {
-                    result.append(scanData(node));
+                result.append(">"); //
+                if (node.getText().equals("")) { //если нет текста
+                    result.append(scanData(node)); // забираем детей в рекурсии
                     currentIndent = new StringBuilder(currentIndent.substring(INDENT.length()));//обрезаем отступы
-                    result.append("\n").append(currentIndent);
+                    result.append("\n").append(currentIndent); //отступ с новой строки
 
                 } else {
-                    result.append(node.getText());
+                    result.append(node.getText()); // текст есть, значит нет детей
                 }
 
-                result.append("</").append(node.getTagName()).append(">");
+                result.append("</")
+                        .append(node.getTagName()) //закрывающий тег
+                        .append(">");
             }
         }
         return result;
@@ -177,13 +185,16 @@ public class ParserXML {
         StringBuilder res = new StringBuilder();
         if (attr.size() > 0) {
             attr.forEach((k, v) ->
-                    res.append(" ").append(k).append("=\"").append(v).append("\""));
+                    res.append(" ")
+                            .append(k)
+                            .append("=\"")
+                            .append(v)
+                            .append("\""));
         }
         return res;
     }
 
     private static String correctSpaces(String line) {
-
         line = line.replace(" />", "/>");
         line = line.replace("</ ", "</");
         line = line.replace("< ", "<");
@@ -199,18 +210,17 @@ public class ParserXML {
 
     private static String correctFile(StringBuilder file) {
         String str = String.valueOf(file);
-        str = str.replaceAll("\n", "");
+        str = str.replaceAll("\n", ""); // удаляем все переносы строк
+        str = str.replaceAll("<!--.*?-->", ""); // удаляем комментарии
 
-        str = str.replaceAll("<!--.*?-->", "");
-
-        while (str.contains("> ")) {
+        while (str.contains("> ")) {    // вычищаем пробелы между тегами
             str = str.replace("> ", ">");
         }
-        while (str.contains(" <")) {
+        while (str.contains(" <")) {    // вычищаем пробелы между тегами, не имеет смысла, но на всякий
             str = str.replace(" <", "<");
         }
 
-        str = str.replaceAll("><", ">\n<");
+        str = str.replaceAll("><", ">\n<"); // рисуем переносы
         return str;
     }
 
