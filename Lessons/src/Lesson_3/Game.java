@@ -46,11 +46,14 @@ public class Game {
             enterMapSize();
             initMap();
             inputName();
+            int k = 1;
+
             root.addChildNode("Player", "", "id", "1", "name", name1, "symbol", "X");
             root.addChildNode("Player", "", "id", "2", "name", name2, "symbol", "O");
-            Data game = new Data("Game");
+            Data game = new Data("Game", "",
+                    "map", size + "x" + size, "set", String.valueOf(set));
             root.addChildNode(game);
-            int k = 1;
+
             while (true) {
                 if (k > 2) k = 1;
                 if (!isAI || k == 1) printMap();
@@ -76,6 +79,7 @@ public class Game {
                     if (isAI) System.out.println("Вы проиграли!");
                     else System.out.println(name2 + " победил!");
                     result = " проиграл ";
+
                     Data gameResult = new Data("GameResult");
                     game.addChildNode(gameResult);
                     gameResult.addChildNode("Player", "",

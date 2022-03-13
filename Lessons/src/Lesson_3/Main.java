@@ -13,11 +13,12 @@ import java.nio.charset.StandardCharsets;
  */
 
 public class Main {
-    private final static String FILE_NAME = "history.xml";
+    private final static String FILE_NAME = "victim.xml";
 
     public static void main(String[] args) {
 
         Data root = new Data("GamePlay");
+
         Game game = new Game(root);
         game.run();
 

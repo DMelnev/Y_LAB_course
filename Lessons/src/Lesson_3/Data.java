@@ -10,6 +10,7 @@ import java.util.HashMap;
  * @version 2022-
  **/
 public class Data {
+
     private final String tagName;
     private HashMap<String, String> attributes = new HashMap<>();
     private final String text;
@@ -22,16 +23,23 @@ public class Data {
     }
 
     public Data(String tagName) {
-        this.tagName = tagName;
-        this.text = "";
+        this(tagName, "");
     }
 
     public Data(String tagName, String text, HashMap<String, String> attributes) {
-        this.tagName = tagName;
-        this.text = text;
+        this(tagName, text);
         this.attributes = attributes;
     }
-
+    public Data(String tagName, String text, String... attr) {
+        HashMap<String, String> map = new HashMap<>();
+        for (int i = 0; i < attr.length; i += 2) {
+            if ((i + 1) >= attr.length) break;
+            map.put(attr[i], attr[i + 1]);
+        }
+        this.tagName = tagName;
+        this.text = text;
+        this.attributes = map;
+    }
 //    public Data getChildNodeByName(String tag) {
 //        for (Data node : childNodes) {
 //            if (!node.getTagName().equals(tag)) continue;

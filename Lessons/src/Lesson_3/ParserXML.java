@@ -1,6 +1,8 @@
 package Lesson_3;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -23,7 +25,17 @@ public class ParserXML {
     private static StringBuilder currentIndent = new StringBuilder();
 
     public static Data dataFromFile(String file) throws Exception {
-        Scanner scanner = new Scanner(new File(file));
+
+        StringBuilder fileString = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        char[] buffer = new char[1024];
+        int num = 0;
+        while ((num = reader.read(buffer)) != -1) {
+            fileString.append(String.valueOf(buffer, 0, num));
+        }
+        reader.close();
+
+        Scanner scanner = new Scanner(correctFile(fileString));
         Data prev;
         Data current = null;
 
@@ -184,4 +196,22 @@ public class ParserXML {
         }
         return line;
     }
+
+    private static String correctFile(StringBuilder file) {
+        String str = String.valueOf(file);
+        str = str.replaceAll("\n", "");
+
+        str = str.replaceAll("<!--.*?-->", "");
+
+        while (str.contains("> ")) {
+            str = str.replace("> ", ">");
+        }
+        while (str.contains(" <")) {
+            str = str.replace(" <", "<");
+        }
+
+        str = str.replaceAll("><", ">\n<");
+        return str;
+    }
+
 }
