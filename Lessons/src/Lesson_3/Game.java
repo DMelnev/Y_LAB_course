@@ -314,32 +314,53 @@ public class Game {
     }
 
     public void player(String fileName) throws Exception {
+        System.out.println("Playing file: " + fileName);
+
         Data root = ParserXML.dataFromFile(fileName);
         if (!root.getTagName().equals("GamePlay")) {
             System.out.println("Не верный формат файла");
             return;
         }
-
         for (Data game : root.getChildNodes()) {
-            System.out.printf("Game %s set %s",
+            if (game.getTagName().equals("Player")){//в ТЗ не используется
+                System.out.printf("Player %s name is %s as %s\n",
+                        game.getAttrByName("id"),
+                        game.getAttrByName("name"),
+                        game.getAttrByName("symbol"));
+                continue;
+            }
+//            System.out.println(game);
+
+            System.out.printf("Game %s set %s\n",
                     game.getAttrByName("map"),
                     game.getAttrByName("set"));
+            set = Integer.parseInt(game.getAttrByName("set"));
+            size = Integer.parseInt(game.getAttrByName("map").split("x")[0]);
+            initMap();
+
             for (Data step : game.getChildNodes()) {
                 if (step.getTagName().equals("GameResult")) {
                     if (step.getText().equals("Draw!")) {
                         System.out.println("Draw!");
+                    } else {
+                        Data winner = step.getChildNodeByName("Player");
+                        System.out.printf("Player %s -> %s is winner as '%s'!\n",
+                                winner.getAttrByName("id"),
+                                winner.getAttrByName("name"),
+                                winner.getAttrByName("symbol"));
                     }
-                    Data winner = step.getChildNodeByName("Player");
-                    System.out.printf("Player %s -> %s is winner as '%s'!",
-                            winner.getAttrByName("id"),
-                            winner.getAttrByName("name"),
-                            winner.getAttrByName("symbol"));
+                    System.out.println();
+                    continue;
                 }
-                if (step.getTagName().equals("Step")){
-
+                if (step.getTagName().equals("Step")) {
+                    char mark = (step.getAttrByName("playerId").equals("1")) ? DOT_HUMAN : DOT_AI;
+                    int x = Integer.parseInt(step.getText().split(",")[0])-1;
+                    int y = Integer.parseInt(step.getText().split(",")[1])-1;
+                    map[y][x] = mark;
+                    printMap();
+                    System.out.println();
                 }
             }
         }
-
     }
 }

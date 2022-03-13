@@ -79,9 +79,6 @@ public class ParserXML {
                         while (j < max) {
                             String[] attrData = data[j].split("=");
                             if (attrData.length != 2) {
-
-                                System.out.println(Arrays.toString(data));
-                                System.out.println(attrData[0]);
                                 throw new IndexOutOfBoundsException("File is not correct");
                             }
                             String second = attrData[1].replace("\"", "").replace(">", "");
@@ -91,7 +88,6 @@ public class ParserXML {
                         }
                     }
                     if ((max - j == 2) || (max == 2)) text = data[max - 1];
-                    System.out.println(name);
                     current.addChildNode(new Data(name, text, map));
                     continue;
                 }

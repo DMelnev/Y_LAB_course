@@ -34,6 +34,16 @@ public class Test {
             e.printStackTrace();
         }
 
+        try {
+            Data root = new Data("GamePlay");
+            Game game = new Game(root);
+
+            game.player("victim.xml");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
