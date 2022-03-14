@@ -26,7 +26,7 @@ public class Test {
             }
 
 
-            try (FileOutputStream outputStream = new FileOutputStream(file2);//){
+            try (FileOutputStream outputStream = new FileOutputStream(file2);
                  OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "windows-1251")) {
                 outputStreamWriter.write(ParserXML.dataToXML(root2).toString());
             } catch (IOException e) {

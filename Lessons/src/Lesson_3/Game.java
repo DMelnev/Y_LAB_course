@@ -322,7 +322,7 @@ public class Game {
             return;
         }
         for (Data game : root.getChildNodes()) {
-            if (game.getTagName().equals("Player")){//в ТЗ не используется
+            if (game.getTagName().equals("Player")) {//в ТЗ не используется
                 System.out.printf("Player %s name is %s as %s\n",
                         game.getAttrByName("id"),
                         game.getAttrByName("name"),
@@ -354,8 +354,8 @@ public class Game {
                 }
                 if (step.getTagName().equals("Step")) {
                     char mark = (step.getAttrByName("playerId").equals("1")) ? DOT_HUMAN : DOT_AI;
-                    int x = Integer.parseInt(step.getText().split(",")[0])-1;
-                    int y = Integer.parseInt(step.getText().split(",")[1])-1;
+                    int x = Integer.parseInt(step.getText().split(",")[0]) - 1;
+                    int y = Integer.parseInt(step.getText().split(",")[1]) - 1;
                     map[y][x] = mark;
                     printMap();
                     System.out.println();

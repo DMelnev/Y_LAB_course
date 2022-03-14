@@ -76,7 +76,6 @@ public class ParserXML {
 
                 if (data[(max)].contains("</")) {//************************************************
                     int j = 1;
-//                    System.out.println(max);
                     if (max != 2) {
                         while (j < max) {
                             String[] attrData = data[j].split("=");
