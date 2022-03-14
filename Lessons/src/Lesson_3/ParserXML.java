@@ -29,6 +29,8 @@ public class ParserXML {
         while ((num = reader.read(buffer)) != -1) {
             fileString.append(String.valueOf(buffer, 0, num));
         }
+//        String utf8String= new String(fileString.toString().getBytes("UTF-8"), "windows-1251");
+//        fileString = new StringBuilder(utf8String);
         reader.close();
 
         Scanner scanner = new Scanner(correctFile(fileString));

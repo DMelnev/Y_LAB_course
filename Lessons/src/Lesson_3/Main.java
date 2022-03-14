@@ -1,8 +1,6 @@
 package Lesson_3;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -23,6 +21,7 @@ public class Main {
         game.run();
 
         File file = new File(FILE_NAME);
+//        PrintWriter file = new PrintWriter(FILE_NAME, "Cp1251");
 
         if (!file.exists()) {
             try {
@@ -32,8 +31,11 @@ public class Main {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            outputStream.write(ParserXML.dataToXML(root).toString().getBytes(StandardCharsets.UTF_8));
+        try (FileOutputStream outputStream = new FileOutputStream(file);){
+//             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "windows-1251")) {
+//            outputStreamWriter.write(ParserXML.dataToXML(root).toString());
+                        outputStream.write(ParserXML.dataToXML(root).toString().getBytes(StandardCharsets.UTF_8));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
