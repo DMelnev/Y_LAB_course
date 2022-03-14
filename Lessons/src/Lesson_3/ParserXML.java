@@ -1,7 +1,6 @@
 package Lesson_3;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -22,15 +21,17 @@ public class ParserXML {
 
     public static Data dataFromFile(String file) throws Exception {
 
+        InputStream inputStream = new FileInputStream(file);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "windows-1251");
         StringBuilder fileString = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        BufferedReader reader = new BufferedReader(inputStreamReader);
         char[] buffer = new char[1024];
         int num = 0;
         while ((num = reader.read(buffer)) != -1) {
             fileString.append(String.valueOf(buffer, 0, num));
         }
-//        String utf8String= new String(fileString.toString().getBytes("UTF-8"), "windows-1251");
-//        fileString = new StringBuilder(utf8String);
+
         reader.close();
 
         Scanner scanner = new Scanner(correctFile(fileString));

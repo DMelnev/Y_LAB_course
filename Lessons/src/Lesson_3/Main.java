@@ -31,10 +31,10 @@ public class Main {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(file);){
-//             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "windows-1251")) {
-//            outputStreamWriter.write(ParserXML.dataToXML(root).toString());
-                        outputStream.write(ParserXML.dataToXML(root).toString().getBytes(StandardCharsets.UTF_8));
+        try (FileOutputStream outputStream = new FileOutputStream(file);//){
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "windows-1251")) {
+            outputStreamWriter.write(ParserXML.dataToXML(root).toString());
+//                        outputStream.write(ParserXML.dataToXML(root).toString().getBytes(StandardCharsets.UTF_8));
 
         } catch (IOException e) {
             e.printStackTrace();
