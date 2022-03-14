@@ -354,9 +354,9 @@ public class Game {
                 }
                 if (step.getTagName().equals("Step")) {
                     char mark = (step.getAttrByName("playerId").equals("1")) ? DOT_HUMAN : DOT_AI;
-                    int x = Integer.parseInt(step.getText().split(",")[0]) - 1;
-                    int y = Integer.parseInt(step.getText().split(",")[1]) - 1;
-                    map[y][x] = mark;
+                    String[] coord = step.getText().split(",");
+                    if (coord.length != 2) continue;
+                    map[(Integer.parseInt(coord[1]) - 1)][(Integer.parseInt(coord[0]) - 1)] = mark;
                     printMap();
                     System.out.println();
                 }
