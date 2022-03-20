@@ -2,60 +2,60 @@
   "Gameplay": {
     "Player": [
       {
-        "_name": "Алёна",
-        "_id": "1",
-        "_symbol": "X"
+        "name": "Алёна",
+        "id": "1",
+        "symbol": "X"
       },
       {
-        "_name": "Кирилл",
-        "_id": "2",
-        "_symbol": "O"
+        "name": "Кирилл",
+        "id": "2",
+        "symbol": "O"
       }
     ],
     "Game": {
       "Step": [
         {
-          "_num": "1",
-          "_playerId": "1",
-          "__text": "1"
+          "num": "1",
+          "playerId": "1",
+          "text": "1"
         },
         {
-          "_num": "2",
-          "_playerId": "2",
-          "__text": "2"
+          "num": "2",
+          "playerId": "2",
+          "text": "2"
         },
         {
-          "_num": "3",
-          "_playerId": "1",
-          "__text": "3"
+          "num": "3",
+          "playerId": "1",
+          "text": "3"
         },
         {
-          "_num": "4",
-          "_playerId": "2",
-          "__text": "4"
+          "num": "4",
+          "playerId": "2",
+          "text": "4"
         },
         {
-          "_num": "5",
-          "_playerId": "1",
-          "__text": "5"
+          "num": "5",
+          "playerId": "1",
+          "text": "5"
         },
         {
-          "_num": "6",
-          "_playerId": "2",
-          "__text": "6"
+          "num": "6",
+          "playerId": "2",
+          "text": "6"
         },
         {
-          "_num": "7",
-          "_playerId": "1",
-          "__text": "7"
+          "num": "7",
+          "playerId": "1",
+          "text": "7"
         }
       ]
     },
     "GameResult": {
       "Player": {
-        "_name": "Алёна",
-        "_id": "1",
-        "_symbol": "X"
+        "name": "Алёна",
+        "id": "1",
+        "symbol": "X"
       }
     }
   }
