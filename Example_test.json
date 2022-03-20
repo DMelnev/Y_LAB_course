@@ -1,0 +1,62 @@
+{
+  "Gameplay": {
+    "Player": [
+      {
+        "_name": "Алёна",
+        "_id": "1",
+        "_symbol": "X"
+      },
+      {
+        "_name": "Кирилл",
+        "_id": "2",
+        "_symbol": "O"
+      }
+    ],
+    "Game": {
+      "Step": [
+        {
+          "_num": "1",
+          "_playerId": "1",
+          "__text": "1"
+        },
+        {
+          "_num": "2",
+          "_playerId": "2",
+          "__text": "2"
+        },
+        {
+          "_num": "3",
+          "_playerId": "1",
+          "__text": "3"
+        },
+        {
+          "_num": "4",
+          "_playerId": "2",
+          "__text": "4"
+        },
+        {
+          "_num": "5",
+          "_playerId": "1",
+          "__text": "5"
+        },
+        {
+          "_num": "6",
+          "_playerId": "2",
+          "__text": "6"
+        },
+        {
+          "_num": "7",
+          "_playerId": "1",
+          "__text": "7"
+        }
+      ]
+    },
+    "GameResult": {
+      "Player": {
+        "_name": "Алёна",
+        "_id": "1",
+        "_symbol": "X"
+      }
+    }
+  }
+}

@@ -9,7 +9,6 @@ package Lesson_4.Parser;
 import Lesson_4.Data.Data;
 import Lesson_4.Data.Encoding;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -31,7 +30,7 @@ public class ParserXML implements MyParser {
 
 
     @Override
-    public Data stringToData(StringBuilder string) {
+    public Data stringToData(String string) {
 
         Scanner scanner = new Scanner(correctFile(string));
         Data prev;
@@ -136,7 +135,7 @@ public class ParserXML implements MyParser {
     }
 
     @Override
-    public StringBuilder dataToString(Data root) {
+    public String dataToString(Data root) {
         StringBuilder result = new StringBuilder();
         currentIndent = new StringBuilder();
         result.append(START).append(charSet.getCharset()).append("\"?>");
@@ -149,7 +148,7 @@ public class ParserXML implements MyParser {
         result.append(scanData(root)); // запускаем рекурсию
         //end root
         result.append("\n</").append(root.getTagName()).append(">\n");
-        return result;
+        return result.toString();
     }
 
     private static StringBuilder scanData(Data root) {
@@ -211,20 +210,19 @@ public class ParserXML implements MyParser {
         return line;
     }
 
-    private static String correctFile(StringBuilder file) {
-        String str = String.valueOf(file);
-        str = str.replaceAll("\n", ""); // удаляем все переносы строк
-        str = str.replaceAll("<!--.*?-->", ""); // удаляем комментарии
+    private static String correctFile(String file) {
+        file = file.replaceAll("\n", ""); // удаляем все переносы строк
+        file = file.replaceAll("<!--.*?-->", ""); // удаляем комментарии
 
-        while (str.contains("> ")) {    // вычищаем пробелы между тегами
-            str = str.replace("> ", ">");
+        while (file.contains("> ")) {    // вычищаем пробелы между тегами
+            file = file.replace("> ", ">");
         }
-        while (str.contains(" <")) {    // вычищаем пробелы между тегами, не имеет смысла, но на всякий
-            str = str.replace(" <", "<");
+        while (file.contains(" <")) {    // вычищаем пробелы между тегами, не имеет смысла, но на всякий
+            file = file.replace(" <", "<");
         }
 
-        str = str.replaceAll("><", ">\n<"); // рисуем переносы
-        return str;
+        file = file.replaceAll("><", ">\n<"); // рисуем переносы
+        return file;
     }
 
     @Override

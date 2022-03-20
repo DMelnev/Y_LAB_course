@@ -7,6 +7,7 @@
 package Lesson_4.Parser;
 
 import Lesson_4.Data.Encoding;
+
 import java.io.*;
 
 public class FileWorker {
@@ -37,7 +38,7 @@ public class FileWorker {
     }
 
 
-    public static boolean writeFile(StringBuilder string, String fileName) {
+    public static boolean writeFile(String string, String fileName) {
 
         try (FileOutputStream outputStream = new FileOutputStream(fileName);
              OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, charSet.getCharset())) {

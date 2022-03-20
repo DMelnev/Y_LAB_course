@@ -11,8 +11,8 @@ import Lesson_4.Data.Encoding;
 
 public interface MyParser {
 
-    Data stringToData(StringBuilder string);
-    StringBuilder dataToString(Data root);
+    Data stringToData(String string);
+    String dataToString(Data root);
     void setCharSet(Encoding charSet);
 
 }

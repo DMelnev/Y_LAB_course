@@ -8,8 +8,6 @@ package Lesson_4.Game;
 
 import Lesson_4.Data.Coordinate;
 import Lesson_4.Data.Data;
-import Lesson_4.Parser.MyParser;
-import Lesson_4.Parser.ParserXML;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,12 +22,12 @@ import java.util.*;
  * @version 2022
  */
 public class Game {
-    char[][] map;
+    protected char[][] map;
     protected int size; //размер поля
     protected int set;  //длина победной линии
-    final char DOT_EMPTY = '-';
-    final char DOT_HUMAN = 'X';
-    final char DOT_AI = 'O';
+    protected final char DOT_EMPTY = '-';
+    protected final char DOT_HUMAN = 'X';
+    protected final char DOT_AI = 'O';
 
     final File FILE = new File("statistic.txt");
 
@@ -45,7 +43,9 @@ public class Game {
 
     public Game(Data root) {
         this.root = root;
+    }
 
+    public Game() {
     }
 
     public void run() {
@@ -152,12 +152,12 @@ public class Game {
         } while (num < 1 || num > 2);
     }
 
-    private void initMap() {
+    protected void initMap() {
         map = new char[size][size];
         for (char[] line : map) Arrays.fill(line, DOT_EMPTY);
     }
 
-    private void printMap() {
+    protected void printMap() {
         System.out.print("  ");
         for (int i = 1; i < size + 1; i++) {
             System.out.printf("%d %s", i, (i < 10) ? " " : "");
@@ -323,59 +323,4 @@ public class Game {
         return false;
     }
 
-
-    public void playerFromFile(String fileName) {
-        System.out.println("Playing file: " + fileName);
-        MyParser parser = new ParserXML();
-//        Data root = parser.stringToData(fileWorker(fileName));
-        playerFromData(root);
-    }
-
-    public void playerFromData(Data data) {
-
-        if (!data.getTagName().equals("GamePlay")) {
-            System.out.println("Не верный формат");
-            return;
-        }
-        for (Data game : data.getChildNodes()) {
-            if (game.getTagName().equals("Player")) {//в ТЗ не используется
-                System.out.printf("Player %s name is %s as %s\n",
-                        game.getAttrByName("id"),
-                        game.getAttrByName("name"),
-                        game.getAttrByName("symbol"));
-                continue;
-            }
-
-            System.out.printf("Game %s set %s\n",
-                    game.getAttrByName("map"),
-                    game.getAttrByName("set"));
-            set = Integer.parseInt(game.getAttrByName("set"));
-            size = Integer.parseInt(game.getAttrByName("map").split("x")[0]);
-            initMap();
-
-            for (Data step : game.getChildNodes()) {
-                if (step.getTagName().equals("GameResult")) {
-                    if (step.getText().equals("Draw!")) {
-                        System.out.println("Draw!");
-                    } else {
-                        Data winner = step.getChildNodeByName("Player");
-                        System.out.printf("Player %s -> %s is winner as '%s'!\n",
-                                winner.getAttrByName("id"),
-                                winner.getAttrByName("name"),
-                                winner.getAttrByName("symbol"));
-                    }
-                    System.out.println();
-                    continue;
-                }
-                if (step.getTagName().equals("Step")) {
-                    char mark = (step.getAttrByName("playerId").equals("1")) ? DOT_HUMAN : DOT_AI;
-                    String[] coord = step.getText().split(",");
-                    if (coord.length != 2) continue;
-                    map[(Integer.parseInt(coord[1]) - 1)][(Integer.parseInt(coord[0]) - 1)] = mark;
-                    printMap();
-                    System.out.println();
-                }
-            }
-        }
-    }
 }

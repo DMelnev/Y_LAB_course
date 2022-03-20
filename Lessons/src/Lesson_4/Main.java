@@ -6,6 +6,7 @@ import Lesson_4.Game.Game;
 import Lesson_4.Parser.FileWorker;
 import Lesson_4.Parser.MyParser;
 import Lesson_4.Parser.ParserXML;
+import Lesson_4.Player.Player;
 
 /**
  * class Main
@@ -26,12 +27,14 @@ public class Main {
 
         MyParser parser = new ParserXML();
         parser.setCharSet(Encoding.WINDOWS1251);
-        StringBuilder string = parser.dataToString(root);
 
+        String string = parser.dataToString(root);
+
+        FileWorker.setCharSet(Encoding.WINDOWS1251);
         if (!FileWorker.writeFile(string, FILE_NAME)) System.out.println("Не удалось записать в файл!");
 
-        game.playerFromFile("log.xml");
-
+        Player player = new Player();
+        player.FromFile("log.xml");
 
     }
 }
