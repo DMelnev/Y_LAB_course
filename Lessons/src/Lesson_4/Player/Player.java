@@ -8,6 +8,7 @@ package Lesson_4.Player;
 
 import Lesson_4.Data.Data;
 import Lesson_4.Parser.FileWorker;
+import Lesson_4.Parser.MyParser;
 import Lesson_4.Parser.ParserXML;
 
 import java.util.Locale;
@@ -27,8 +28,8 @@ public class Player extends Lesson_4.Game.Game {
         String START_JSON = "{";
         if (result.substring(0, START_JSON.length()).equals(START_JSON)) {
             System.out.println("JSON detected");
-//            MyParser parser = new ParserXML();
-//            root = parser.stringToData(result);
+            MyParser parser = new ParserXML();
+            root = parser.stringToData(result.toString());
         }
 
         FromData(root);
