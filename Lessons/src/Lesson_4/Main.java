@@ -30,13 +30,17 @@ public class Main {
         MyParser parserXML = new ParserXML();
         MyParser parserJSON = new ParserJSON();
 
-        if (!FileWorker.writeFile(parserXML.dataToString(root), FILE_XML))
-            System.out.println("Не удалось записать в файл!");
-
+        FileWorker.setCharSet(Encoding.UTF8);//JSON по умолчанию пытается прочитаться в кодировке UTF-8
         if (!FileWorker.writeFile(parserJSON.dataToString(root), FILE_JSON))
             System.out.println("Не удалось записать в файл!");
 
+        FileWorker.setCharSet(Encoding.WINDOWS1251);
+        if (!FileWorker.writeFile(parserXML.dataToString(root), FILE_XML))
+            System.out.println("Не удалось записать в файл!");
+
         new Player().FromFile(FILE_XML);
+
+        FileWorker.setCharSet(Encoding.UTF8);
         new Player().FromFile(FILE_JSON);
 
     }
