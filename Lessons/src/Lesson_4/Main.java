@@ -22,29 +22,35 @@ public class Main {
     public static void main(String[] args) {
 
         Data root = new Data("GamePlay");
-
+//
 //        Game game = new Game(root);
 //        game.run();
 //
         MyParser parser = new ParserXML();
         MyParser parser2 = new ParserJSON();
 
-        parser.setCharSet(Encoding.WINDOWS1251);
+//        parser.setCharSet(Encoding.WINDOWS1251);
 //
 //        String string = parser.dataToString(root);
 //
 //        FileWorker.setCharSet(Encoding.WINDOWS1251);
 //        if (!FileWorker.writeFile(string, FILE_NAME)) System.out.println("Не удалось записать в файл!");
 //
-//        Player player = new Player();
+        Player player = new Player();
 //        player.FromFile("log.xml");
 
-        root = parser.stringToData(FileWorker.readFile(FILE_NAME).toString());
+//        root = parser.stringToData(FileWorker.readFile(FILE_NAME).toString());
+//
+//        String test = parser2.dataToString(root);
+//
+//        FileWorker.writeFile(test,"test.JSON");
+//        System.out.println(test);
 
-        String test = parser2.dataToString(root);
+        String string = FileWorker.readFile("test.JSON").toString();
+        root = parser2.stringToData(string);
+        String fff = parser.dataToString(root);
+        System.out.println(fff);
 
-        FileWorker.writeFile(test,"test.JSON");
-        System.out.println(test);
 
     }
 }

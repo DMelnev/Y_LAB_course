@@ -10,8 +10,14 @@ import Lesson_4.Data.Data;
 import Lesson_4.Data.Encoding;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ParserJSON implements MyParser {
 
@@ -21,15 +27,87 @@ public class ParserJSON implements MyParser {
 
     @Override
     public Data stringToData(String string) {
-//        Data data = new Data("GamePlay");
-//        if (string.equals("")) return null;
+        JSONParser parser = new JSONParser();
+        Data data = null;
+        try {
+            JSONObject jsonObject = (JSONObject) parser.parse(string);
+            JSONArray gamePlay = (JSONArray) jsonObject.get("GamePlay");
+//            System.out.println(gamePlay);
+            data = new Data("GamePlay");
 
-//        List<Map<String, Object>> res = (List<Map<String, Object>>) JsonPath.parse(string);
+            for (Object o : gamePlay) {
+                JSONObject step = (JSONObject) o;
 
-//        res.forEach(System.out::println);
+                if (step.toString().startsWith("{\"Player\"")) {
+                    JSONObject www = (JSONObject) step.get("Player");
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("symbol", (String) www.get("symbol"));
+                    map.put("name", (String) www.get("name"));
+                    map.put("id", (String) www.get("id"));
+                    Data player = new Data("Player", "", map);
+                    player.setParent(data);
+                    data.addChildNode(player);
+                }
+                if (step.toString().startsWith("{\"Game\"")) {
+                    JSONArray gameJ = (JSONArray) step.get("Game");
+                    Data game = null;
+                    for( Object ob : gameJ){
+                        JSONObject stp = (JSONObject) ob;
+
+                        if (stp.toString().startsWith("{\"Attr\"")) {
+                            JSONObject www = (JSONObject) stp.get("Attr");
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put("set", (String) www.get("set"));
+                            map.put("map", (String) www.get("map"));
+                            game = new Data("Game", "", map);
+                            data.addChildNode(game);
+                        }
+
+                        if (stp.toString().startsWith("{\"Steps\"")) {
+                            JSONArray stepsJ = (JSONArray) stp.get("Steps");
+                            for( Object os : stepsJ) {
+                                JSONObject stepJ = (JSONObject) os;
+                                if (stepJ.toString().startsWith("{\"Step\"")) {
+                                    JSONObject www = (JSONObject) stepJ.get("Step");
+                                    HashMap<String, String> map = new HashMap<>();
+                                    map.put("Coordinate", (String) www.get("Coordinate"));
+                                    map.put("num", (String) www.get("num"));
+                                    map.put("playerId", (String) www.get("playerId"));
+                                    Data stepD = new Data("Step","",map);
+                                    stepD.setParent(game);
+                                    game.addChildNode(stepD);
+                                }
+                                if (stepJ.toString().startsWith("{\"GameResult\"")) {
+                                    if (stepJ.get("GameResult").equals("Draw!")){
+                                        Data stepR = new Data("GameResult","Draw!");
+                                        stepR.setParent(game);
+                                        game.addChildNode(stepR);
+                                    }else{
+                                        JSONObject gameResult = (JSONObject) stepJ.get("GameResult");
+                                        JSONObject player = (JSONObject) gameResult.get("Player");
+                                        HashMap<String, String> map = new HashMap<>();
+                                        map.put("symbol", (String) player.get("symbol"));
+                                        map.put("name", (String) player.get("name"));
+                                        map.put("id", (String) player.get("id"));
+                                        Data gr = new Data("GameResult", "");
+                                        gr.setParent(game);
+                                        game.addChildNode(gr);
+                                        Data stepR = new Data("Player","", map);
+                                        stepR.setParent(gr);
+                                        gr.addChildNode(stepR);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-        return null;
+        return data;
     }
 
     @Override
@@ -101,20 +179,31 @@ public class ParserJSON implements MyParser {
         StringBuilder tempIndent = new StringBuilder();
 
         for (int i = 0; i < temp.length(); i++) {
-            if (temp.charAt(i) == '{') {
-                temp.insert(i + 1, "\n" + tempIndent);
-                if (i != 0) temp.insert(i, "\n" + tempIndent);
-                i += tempIndent.length() + 1;
-                tempIndent = tempIndent.append(INDENT);
+            switch (temp.charAt(i)) {
+                case '{' -> {
+                    temp.insert(i + 1, "\n" + tempIndent);
+                    if (i != 0) temp.insert(i, "\n" + tempIndent);
+                    i += tempIndent.length() + 1;
+                    tempIndent = tempIndent.append(INDENT);
+                }
+                case '}' -> {
+                    if (i < (temp.length() - 1)) {
+                        tempIndent = new StringBuilder(tempIndent.substring(INDENT.length()));
+                        if (i > 0) temp.insert(i, "\n" + tempIndent);
+                        i += tempIndent.length() + ((temp.charAt(i + 1) == ',') ? 2 : 1);
+                    }
+                }
+                case ',' -> {
+                    if ((temp.charAt(i - 1) == '"' || temp.charAt(i - 1) == ']')) {
+                        temp.insert(i + 1, "\n" + tempIndent.substring(INDENT.length()));
+                    }
+                }
+                case ']' -> {
+                    temp.insert(i, "\n" + tempIndent);
+                    i += tempIndent.length() + 1;
+                }
             }
-            if (temp.charAt(i) == '}' && i < (temp.length() - 1)) {
-                tempIndent = new StringBuilder(tempIndent.substring(INDENT.length()));
-                if (i > 0) temp.insert(i, "\n" + tempIndent);
-                i += tempIndent.length() + ((temp.charAt(i + 1) == ',') ? 2 : 1);
-            }
-            if (i > 0 && temp.charAt(i) == ',' && (temp.charAt(i - 1) == '"' || temp.charAt(i - 1) == ']')) {
-                temp.insert(i + 1, "\n" + tempIndent.substring(INDENT.length()));
-            }
+
         }
         return temp.toString();
     }
