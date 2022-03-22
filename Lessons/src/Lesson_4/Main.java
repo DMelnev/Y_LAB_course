@@ -34,13 +34,15 @@ public class Main {
         if (!FileWorker.writeFile(parserJSON.dataToString(root), FILE_JSON))
             System.out.println("Не удалось записать в файл!");
 
-        FileWorker.setCharSet(Encoding.WINDOWS1251);
+        FileWorker.setCharSet(Encoding.WINDOWS1251);// для XML
+
         if (!FileWorker.writeFile(parserXML.dataToString(root), FILE_XML))
             System.out.println("Не удалось записать в файл!");
 
         new Player().FromFile(FILE_XML);
 
-        FileWorker.setCharSet(Encoding.UTF8);
+        FileWorker.setCharSet(Encoding.UTF8);//для JSON
+
         new Player().FromFile(FILE_JSON);
 
     }
