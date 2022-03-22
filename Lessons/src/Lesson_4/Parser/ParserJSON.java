@@ -8,20 +8,15 @@ package Lesson_4.Parser;
 
 import Lesson_4.Data.Data;
 import Lesson_4.Data.Encoding;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class ParserJSON implements MyParser {
 
-    private Encoding charSet = Encoding.UTF8;
     private static final StringBuilder INDENT = new StringBuilder("    "); //отступ
 
 
@@ -32,7 +27,6 @@ public class ParserJSON implements MyParser {
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(string);
             JSONArray gamePlay = (JSONArray) jsonObject.get("GamePlay");
-//            System.out.println(gamePlay);
             data = new Data("GamePlay");
 
             for (Object o : gamePlay) {
@@ -51,7 +45,7 @@ public class ParserJSON implements MyParser {
                 if (step.toString().startsWith("{\"Game\"")) {
                     JSONArray gameJ = (JSONArray) step.get("Game");
                     Data game = null;
-                    for( Object ob : gameJ){
+                    for (Object ob : gameJ) {
                         JSONObject stp = (JSONObject) ob;
 
                         if (stp.toString().startsWith("{\"Attr\"")) {
@@ -60,29 +54,28 @@ public class ParserJSON implements MyParser {
                             map.put("set", (String) www.get("set"));
                             map.put("map", (String) www.get("map"));
                             game = new Data("Game", "", map);
+                            game.setParent(data);
                             data.addChildNode(game);
                         }
-
                         if (stp.toString().startsWith("{\"Steps\"")) {
                             JSONArray stepsJ = (JSONArray) stp.get("Steps");
-                            for( Object os : stepsJ) {
+                            for (Object os : stepsJ) {
                                 JSONObject stepJ = (JSONObject) os;
                                 if (stepJ.toString().startsWith("{\"Step\"")) {
                                     JSONObject www = (JSONObject) stepJ.get("Step");
                                     HashMap<String, String> map = new HashMap<>();
-                                    map.put("Coordinate", (String) www.get("Coordinate"));
                                     map.put("num", (String) www.get("num"));
                                     map.put("playerId", (String) www.get("playerId"));
-                                    Data stepD = new Data("Step","",map);
+                                    Data stepD = new Data("Step", (String) www.get("Coordinate"), map);
                                     stepD.setParent(game);
                                     game.addChildNode(stepD);
                                 }
                                 if (stepJ.toString().startsWith("{\"GameResult\"")) {
-                                    if (stepJ.get("GameResult").equals("Draw!")){
-                                        Data stepR = new Data("GameResult","Draw!");
+                                    if (stepJ.get("GameResult").equals("Draw!")) {
+                                        Data stepR = new Data("GameResult", "Draw!");
                                         stepR.setParent(game);
                                         game.addChildNode(stepR);
-                                    }else{
+                                    } else {
                                         JSONObject gameResult = (JSONObject) stepJ.get("GameResult");
                                         JSONObject player = (JSONObject) gameResult.get("Player");
                                         HashMap<String, String> map = new HashMap<>();
@@ -92,7 +85,7 @@ public class ParserJSON implements MyParser {
                                         Data gr = new Data("GameResult", "");
                                         gr.setParent(game);
                                         game.addChildNode(gr);
-                                        Data stepR = new Data("Player","", map);
+                                        Data stepR = new Data("Player", "", map);
                                         stepR.setParent(gr);
                                         gr.addChildNode(stepR);
                                     }
@@ -103,7 +96,8 @@ public class ParserJSON implements MyParser {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("File is not correct!");
         }
 
 
@@ -159,11 +153,6 @@ public class ParserJSON implements MyParser {
 
         result.put(root.getTagName(), main);
         return formatString(result.toJSONString());
-    }
-
-    @Override
-    public void setCharSet(Encoding charSet) {
-        this.charSet = charSet;
     }
 
     private JSONObject getAttributes(HashMap<String, String> attr) {

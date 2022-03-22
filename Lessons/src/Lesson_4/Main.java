@@ -17,40 +17,27 @@ import Lesson_4.Player.Player;
  */
 
 public class Main {
-    private final static String FILE_NAME = "log.xml";
+    private final static String FILE_XML = "log.xml";
+    private final static String FILE_JSON = "log.json";
 
     public static void main(String[] args) {
 
         Data root = new Data("GamePlay");
-//
-//        Game game = new Game(root);
-//        game.run();
-//
-        MyParser parser = new ParserXML();
-        MyParser parser2 = new ParserJSON();
 
-//        parser.setCharSet(Encoding.WINDOWS1251);
-//
-//        String string = parser.dataToString(root);
-//
-//        FileWorker.setCharSet(Encoding.WINDOWS1251);
-//        if (!FileWorker.writeFile(string, FILE_NAME)) System.out.println("Не удалось записать в файл!");
-//
-        Player player = new Player();
-//        player.FromFile("log.xml");
+        Game game = new Game(root);
+        game.run();
 
-//        root = parser.stringToData(FileWorker.readFile(FILE_NAME).toString());
-//
-//        String test = parser2.dataToString(root);
-//
-//        FileWorker.writeFile(test,"test.JSON");
-//        System.out.println(test);
+        MyParser parserXML = new ParserXML();
+        MyParser parserJSON = new ParserJSON();
 
-        String string = FileWorker.readFile("test.JSON").toString();
-        root = parser2.stringToData(string);
-        String fff = parser.dataToString(root);
-        System.out.println(fff);
+        if (!FileWorker.writeFile(parserXML.dataToString(root), FILE_XML))
+            System.out.println("Не удалось записать в файл!");
 
+        if (!FileWorker.writeFile(parserJSON.dataToString(root), FILE_JSON))
+            System.out.println("Не удалось записать в файл!");
+
+        new Player().FromFile(FILE_XML);
+        new Player().FromFile(FILE_JSON);
 
     }
 }

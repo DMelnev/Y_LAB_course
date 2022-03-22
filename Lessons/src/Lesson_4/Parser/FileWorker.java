@@ -12,7 +12,7 @@ import java.io.*;
 
 public class FileWorker {
 
-    private static Encoding charSet = Encoding.UTF8;
+    private static Encoding charSet = Encoding.WINDOWS1251;
 
     public static void setCharSet(Encoding charset) {
         charSet = charset;

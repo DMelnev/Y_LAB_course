@@ -1,14 +1,8 @@
-/**
- * class ParserXML
- *
- * @author Melnev Dmitry
- * @version 2022
- */
+
 package Lesson_4.Parser;
 
 import Lesson_4.Data.Data;
 import Lesson_4.Data.Encoding;
-
 import java.util.*;
 
 /**
@@ -20,7 +14,7 @@ import java.util.*;
 public class ParserXML implements MyParser {
 
     private static Data result;
-    private Encoding charSet = Encoding.UTF8;
+    private Encoding charSet = Encoding.WINDOWS1251;
 
     private static final StringBuilder START =
             new StringBuilder("<?xml version=\"1.0\" encoding=\"");
@@ -225,7 +219,7 @@ public class ParserXML implements MyParser {
         return file;
     }
 
-    @Override
+
     public void setCharSet(Encoding charSet) {
         this.charSet = charSet;
     }

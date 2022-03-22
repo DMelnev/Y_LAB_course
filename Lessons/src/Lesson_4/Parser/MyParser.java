@@ -13,6 +13,6 @@ public interface MyParser {
 
     Data stringToData(String string);
     String dataToString(Data root);
-    void setCharSet(Encoding charSet);
+//    void setCharSet(Encoding charSet);
 
 }

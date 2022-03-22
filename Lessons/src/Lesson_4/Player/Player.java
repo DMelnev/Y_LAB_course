@@ -8,8 +8,8 @@ package Lesson_4.Player;
 
 import Lesson_4.Data.Data;
 import Lesson_4.Parser.FileWorker;
-import Lesson_4.Parser.MyParser;
 import Lesson_4.Parser.ParserXML;
+import Lesson_4.Parser.ParserJSON;
 
 import java.util.Locale;
 
@@ -17,7 +17,7 @@ public class Player extends Lesson_4.Game.Game {
 
     public void FromFile(String fileName) {
         Data root = null;
-        System.out.println("Playing file: " + fileName);
+        System.out.println("\nPlaying file: " + fileName);
         StringBuilder result = FileWorker.readFile(fileName);
 
         String START_XML = "<?xml";
@@ -28,8 +28,7 @@ public class Player extends Lesson_4.Game.Game {
         String START_JSON = "{";
         if (result.substring(0, START_JSON.length()).equals(START_JSON)) {
             System.out.println("JSON detected");
-            MyParser parser = new ParserXML();
-            root = parser.stringToData(result.toString());
+            root = new ParserJSON().stringToData(result.toString());
         }
 
         FromData(root);
@@ -58,6 +57,7 @@ public class Player extends Lesson_4.Game.Game {
             initMap();
 
             for (Data step : game.getChildNodes()) {
+
                 if (step.getTagName().equals("GameResult")) {
                     if (step.getText().equals("Draw!")) {
                         System.out.println("Draw!");
